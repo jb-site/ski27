@@ -57,17 +57,47 @@
   a.btn:hover{text-decoration:underline}
   .note{color:var(--muted);font-size:.85rem}
   footer{margin-top:32px;color:var(--muted);font-size:.82rem;border-top:1px solid var(--line);padding-top:12px}
+
+  .tabs{display:none;gap:4px;border-bottom:1px solid var(--line);margin:18px 0 0}
+  .js .tabs{display:flex}
+  .tabs button{font:inherit;font-size:.95rem;font-weight:600;color:var(--muted);background:none;border:0;
+       border-bottom:2px solid transparent;padding:8px 12px;margin-bottom:-1px;cursor:pointer}
+  .tabs button[aria-selected="true"]{color:var(--accent);border-bottom-color:var(--accent)}
+  .tabs button:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:4px}
+  .js section[role=tabpanel][hidden]{display:none}
+  section[role=tabpanel] > h2:first-child{margin-top:24px}
+  h3.resort{font-size:1.1rem;margin:28px 0 4px}
+  h4{font-size:1rem;margin:0 0 2px}
+  .card.mini .photo{aspect-ratio:3/1;font-size:.9rem}
+  @media (min-width:560px){
+    .card.mini{display:grid;grid-template-columns:200px 1fr}
+    .card.mini .photo{aspect-ratio:auto;min-height:100%}
+  }
+  .card.mini .price{flex:0 1 150px}
+  .card.mini .price b{font-size:1.1rem}
+  ul.pc{list-style:none;padding-left:0;margin:10px 0}
+  ul.pc li{display:flex;gap:8px;align-items:baseline}
+  ul.pc .mk{flex:0 0 12px;font-weight:700;text-align:center}
+  ul.pc li.pro .mk{color:var(--accent)}
+  ul.pc li.con .mk{color:var(--amber)}
+  .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
 </style>
 </head>
 <body>
 <div class="wrap">
 
 <h1>Easter 2027 ski shortlist</h1>
-<p class="sub">Four options for the two families (4 adults, 4 kids)</p>
+<p class="sub">Four options for the two families (4 adults, 4 kids), plus the next best.</p>
 
 <p>Each price is <b>flights + accommodation, per family</b>. They are rough and will move with dates. We have assumed 3–10 April.</p>
 <p><b>Last year:</b> £2,900 per family for 5 nights (flights + RockyPop). With skis, passes and lessons the total was £4,100.</p>
 
+<div class="tabs" role="tablist" aria-label="Options">
+  <button role="tab" id="tab-shortlist" aria-controls="shortlist" aria-selected="true">Shortlist</button>
+  <button role="tab" id="tab-next-best" aria-controls="next-best" aria-selected="false" tabindex="-1">Next best</button>
+</div>
+
+<section id="shortlist" role="tabpanel" aria-labelledby="tab-shortlist">
 <h2>At a glance</h2>
 <div class="scroll">
 <table class="glance">
@@ -211,11 +241,253 @@
   </div>
 </div>
 
+</section>
+
+<!-- ============ NEXT BEST ============ -->
+<section id="next-best" role="tabpanel" aria-labelledby="tab-next-best">
+<h2>Next best</h2>
+<p>Viable, but not in our top four. Each has a good reason to consider it and a reason it didn't make the shortlist. Prices compare with RockyPop at £3,000 for 7 nights (£2,400 for 5).</p>
+
+<h3 class="resort">Obergurgl <span class="note">· about 1½ hr from Innsbruck</span></h3>
+<p class="note">Pretty, traditional village, wide open and not too busy, with snow-sure beginner slopes and a short transfer, but flights are expensive.</p>
+
+<div class="card mini">
+  <div class="photo"><span>Alpenresidenz Gurgl</span>
+    <img src="https://www.alpenresidenz-gurgl.at/fileadmin/userdaten/bilder/zimmer-und-apartments/apartments/apartments-4-8-personen/alpenresidenz-gurgl-apartments-typ-d4-09.jpg" alt="Alpenresidenz Gurgl" loading="lazy" referrerpolicy="no-referrer" onerror="this.remove()">
+  </div>
+  <div class="body">
+    <h4>Alpenresidenz Gurgl <span class="optsub">· Apartment D-4</span></h4>
+    <div class="chips"><span class="chip">5 min walk to lifts</span></div>
+    <div class="prices"><div class="price"><b>£3,100</b><span>7 nights</span></div></div>
+    <ul class="pc">
+      <li class="pro"><span class="mk" aria-hidden="true">+</span><span class="sr">Pro: </span>One flat for all 8, two bathrooms.</li>
+      <li class="pro"><span class="mk" aria-hidden="true">+</span><span class="sr">Pro: </span>Access to sauna and steam room.</li>
+      <li class="con"><span class="mk" aria-hidden="true">–</span><span class="sr">Con: </span>Only 2 bedrooms, so kids sleep on pull-outs in their parents&#x27; room.</li>
+    </ul>
+    <a class="btn" href="https://www.alpenresidenz-gurgl.at/en/rooms-apartments/apartments/apartments-4-8-people/" target="_blank" rel="noopener">alpenresidenz-gurgl.at →</a>
+  </div>
+</div>
+
+<div class="card mini">
+  <div class="photo"><span>Abitare Chalets</span>
+    <img src="https://www.abitare-chalets.com/fileadmin/abitare/Aussenansichten/Abitare-Chalets-Obergurgl_Aussenbereich.jpg" alt="Abitare Chalets" loading="lazy" referrerpolicy="no-referrer" onerror="this.remove()">
+  </div>
+  <div class="body">
+    <h4>Abitare Chalets <span class="optsub">· Everest apartment</span></h4>
+    <div class="chips"><span class="chip">10 min walk to lifts</span></div>
+    <div class="prices"><div class="price"><b>£3,400</b><span>7 nights</span></div></div>
+    <ul class="pc">
+      <li class="pro"><span class="mk" aria-hidden="true">+</span><span class="sr">Pro: </span>Big: 140 m², four bedrooms, four bathrooms.</li>
+      <li class="pro"><span class="mk" aria-hidden="true">+</span><span class="sr">Pro: </span>Access to sauna and steam bath.</li>
+      <li class="pro"><span class="mk" aria-hidden="true">+</span><span class="sr">Pro: </span>9.5/10 on Booking (34 reviews).</li>
+      <li class="con"><span class="mk" aria-hidden="true">–</span><span class="sr">Con: </span>10 min uphill to lifts and ski school, or a shuttle.</li>
+      <li class="con"><span class="mk" aria-hidden="true">–</span><span class="sr">Con: </span>£400 more than RockyPop.</li>
+    </ul>
+    <a class="btn" href="https://www.abitare-chalets.com/en/apartments-obergurgl-tyrol/everest/" target="_blank" rel="noopener">abitare-chalets.com →</a>
+  </div>
+</div>
+
+<div class="card mini">
+  <div class="photo"><span>Das Hochegg</span>
+    <img src="https://cf.bstatic.com/xdata/images/hotel/max1024x768/774945652.jpg?k=b83a3b34509ccf79f0caf490501fa96ce7fe5fdbaa22da4901dc0f2087356158&amp;o=" data-alt="https://lh3.googleusercontent.com/gps-cs-s/ANWiy9QuR-WlLxuP5jyfJ2iaCU6oL7NETrYzDumDDyeUpoL1XeuUX-lQy-AGfGKFHGkbdYU3UtFjQcfmG6rRAgSPB8Bm54fgeK9YemjmDokUaU_JKZmWdki2tjLrxTaXofZ5ctjXlzNn=s1360-w1360-h1020" alt="Das Hochegg" loading="lazy" referrerpolicy="no-referrer" onerror="if(this.dataset.alt){this.src=this.dataset.alt;this.removeAttribute('data-alt')}else{this.remove()}">
+  </div>
+  <div class="body">
+    <h4>Das Hochegg <span class="optsub">· 2 × 1BR</span></h4>
+    <div class="chips"><span class="chip">On the ski run</span></div>
+    <div class="prices"><div class="price"><b>£3,400</b><span>7 nights</span></div></div>
+    <ul class="pc">
+      <li class="pro"><span class="mk" aria-hidden="true">+</span><span class="sr">Pro: </span>On the edge of the ski run, close to ski school.</li>
+      <li class="pro"><span class="mk" aria-hidden="true">+</span><span class="sr">Pro: </span>Access to sauna and infrared cabin.</li>
+      <li class="pro"><span class="mk" aria-hidden="true">+</span><span class="sr">Pro: </span>10/10 on Booking.com.</li>
+      <li class="con"><span class="mk" aria-hidden="true">–</span><span class="sr">Con: </span>Two separate, small flats (about 50 m² each).</li>
+      <li class="con"><span class="mk" aria-hidden="true">–</span><span class="sr">Con: </span>Kids on a living-room sofa bed in each flat.</li>
+      <li class="con"><span class="mk" aria-hidden="true">–</span><span class="sr">Con: </span>£400 more than RockyPop.</li>
+    </ul>
+    <a class="btn" href="https://www.hochegg.at/en/" target="_blank" rel="noopener">hochegg.at →</a>
+  </div>
+</div>
+
+<div class="card mini">
+  <div class="photo"><span>Haus Elisabeth</span>
+    <img src="https://www.oetztal.com/cache-buster-0/unterkuenfte/obergurgl-/haus-elisabeth/120634/image-thumb__120634__nuiLightboxImage/hausansicht-sommer-db694cfd.eb47eb15.jpg" alt="Haus Elisabeth" loading="lazy" referrerpolicy="no-referrer" onerror="this.remove()">
+  </div>
+  <div class="body">
+    <h4>Haus Elisabeth <span class="optsub">· 2 apartments</span></h4>
+    <div class="chips"><span class="chip">5 min walk to centre</span></div>
+    <div class="prices"><div class="price"><b>£3,600</b><span>7 nights</span></div></div>
+    <ul class="pc">
+      <li class="pro"><span class="mk" aria-hidden="true">+</span><span class="sr">Pro: </span>5.0/5 from 25 reviews.</li>
+      <li class="pro"><span class="mk" aria-hidden="true">+</span><span class="sr">Pro: </span>Access to sauna.</li>
+      <li class="con"><span class="mk" aria-hidden="true">–</span><span class="sr">Con: </span>Separate apartments, one bigger than the other, and kids on a sofa bed in one.</li>
+      <li class="con"><span class="mk" aria-hidden="true">–</span><span class="sr">Con: </span>£600 more than RockyPop.</li>
+    </ul>
+    <a class="btn" href="https://www.oetztal.com/en/search-book/accommodations/-/haus-elisabeth.a-06460dc6-dc9d-4589-8d73-75e0fa6a0d4f" target="_blank" rel="noopener">oetztal.com →</a>
+  </div>
+</div>
+
+<h3 class="resort">Cervinia, Italy <span class="note">· about 1 hr 45 from Turin</span></h3>
+<p class="note">Stunning Matterhorn views. High, with most pistes above 2,000 m. Good in April and plenty of easy runs. Italian food.</p>
+
+<div class="card mini">
+  <div class="photo"><span>Les Clochards</span>
+  </div>
+  <div class="body">
+    <h4>Les Clochards <span class="optsub">· 3BR + sofa bed</span></h4>
+    <div class="chips"><span class="chip">On the piste</span></div>
+    <div class="prices"><div class="price"><b>£3,600</b><span>7 nights</span></div></div>
+    <ul class="pc">
+      <li class="pro"><span class="mk" aria-hidden="true">+</span><span class="sr">Pro: </span>On a blue piste close to the lifts.</li>
+      <li class="con"><span class="mk" aria-hidden="true">–</span><span class="sr">Con: </span>10 min walk into the village for dinner and ski school.</li>
+      <li class="con"><span class="mk" aria-hidden="true">–</span><span class="sr">Con: </span>Still being converted. Size and layout not published.</li>
+      <li class="con"><span class="mk" aria-hidden="true">–</span><span class="sr">Con: </span>£600 more than RockyPop.</li>
+    </ul>
+    <a class="btn" href="https://lesclochards.com" target="_blank" rel="noopener">lesclochards.com →</a>
+  </div>
+</div>
+
+<h3 class="resort">Courchevel Moriond (1650) <span class="note">· about 1½ hr from Chambéry, 2½ hr from Geneva</span></h3>
+<p class="note">Courchevel&#x27;s family village, with quieter slopes than 1850, but less good in April: the nursery slopes are lower and sunny.</p>
+
+<div class="card mini">
+  <div class="photo"><span>Aspen Lodge A31</span>
+    <img src="https://cimalpes.com/cache/photos/2000/photos_bien_210_appartement_aspen_lodge_a31_01.webp" alt="Aspen Lodge A31" loading="lazy" referrerpolicy="no-referrer" onerror="this.remove()">
+  </div>
+  <div class="body">
+    <h4>Aspen Lodge A31 <span class="optsub">· 4BR duplex</span></h4>
+    <div class="chips"><span class="chip">150 m to lifts</span></div>
+    <div class="prices"><div class="price"><b>£4,300</b><span>7 nights</span></div></div>
+    <ul class="pc">
+      <li class="pro"><span class="mk" aria-hidden="true">+</span><span class="sr">Pro: </span>Close to lifts and ski school, in the village centre.</li>
+      <li class="pro"><span class="mk" aria-hidden="true">+</span><span class="sr">Pro: </span>112 m², three doubles plus bunk room, three bathrooms. No sofa bed.</li>
+      <li class="con"><span class="mk" aria-hidden="true">–</span><span class="sr">Con: </span>£1,300 more than RockyPop.</li>
+    </ul>
+    <a class="btn" href="https://cimalpes.com/en/rental-courchevel/appartement-aspen-lodge-a31/" target="_blank" rel="noopener">cimalpes.com →</a>
+  </div>
+</div>
+
+<h3 class="resort">Courchevel 1850 <span class="note">· about 1½ hr from Chambéry, 2½ hr from Geneva</span></h3>
+<p class="note">Snow-sure, with skiing from 1,850 m to 3,200 m, but expensive, and some pistes get crowded in high season.</p>
+
+<div class="card mini">
+  <div class="photo"><span>Portes de Courchevel 330B</span>
+    <img src="https://cimalpes.com/cache/photos/2000/photos_bien_4041_salon.webp" alt="Portes de Courchevel 330B" loading="lazy" referrerpolicy="no-referrer" onerror="this.remove()">
+  </div>
+  <div class="body">
+    <h4>Portes de Courchevel 330B <span class="optsub">· 3BR + bunk cabin</span></h4>
+    <div class="chips"><span class="chip">10 m to the piste</span></div>
+    <div class="prices"><div class="price"><b>£4,300</b><span>7 nights</span></div></div>
+    <ul class="pc">
+      <li class="pro"><span class="mk" aria-hidden="true">+</span><span class="sr">Pro: </span>Next to the Tovets piste, in the centre.</li>
+      <li class="con"><span class="mk" aria-hidden="true">–</span><span class="sr">Con: </span>Only 77 m² for 8, two bathrooms.</li>
+      <li class="con"><span class="mk" aria-hidden="true">–</span><span class="sr">Con: </span>£1,300 more than RockyPop.</li>
+    </ul>
+    <a class="btn" href="https://cimalpes.com/en/rental-courchevel/appartement-portes-de-courchevel-330b/" target="_blank" rel="noopener">cimalpes.com →</a>
+  </div>
+</div>
+
+<div class="card mini">
+  <div class="photo"><span>Les Follières 2</span>
+    <img src="https://cimalpes.com/cache/photos/2000/photos_bien_256_03-folieres1-lounge.webp" alt="Les Follières 2" loading="lazy" referrerpolicy="no-referrer" onerror="this.remove()">
+  </div>
+  <div class="body">
+    <h4>Les Follières 2 <span class="optsub">· 4BR</span></h4>
+    <div class="chips"><span class="chip">260 m to lifts</span></div>
+    <div class="prices"><div class="price"><b>£4,800</b><span>7 nights</span></div></div>
+    <ul class="pc">
+      <li class="pro"><span class="mk" aria-hidden="true">+</span><span class="sr">Pro: </span>106 m², three doubles plus bunk room, three bathrooms. No sofa bed.</li>
+      <li class="pro"><span class="mk" aria-hidden="true">+</span><span class="sr">Pro: </span>Short walk to lift and ski school.</li>
+      <li class="con"><span class="mk" aria-hidden="true">–</span><span class="sr">Con: </span>£1,800 more than RockyPop. Dearest option.</li>
+    </ul>
+    <a class="btn" href="https://cimalpes.com/fr/location-courchevel/appartement-follieres-2/" target="_blank" rel="noopener">cimalpes.com →</a>
+  </div>
+</div>
+
+<h3 class="resort">Avoriaz <span class="note">· about 1 hr 35 from Geneva</span></h3>
+<p class="note">Car-free resort and the cheapest options on the list, but beginner slopes are more likely to be slushy in April than in Flaine.</p>
+
+<div class="card mini">
+  <div class="photo"><span>L&#x27;Amara (P&amp;V Premium)</span>
+    <img src="https://photos.pierreetvacances.com/admin/fp2/photos/panopv/1440x810/AAA_85382_panopv.jpg" alt="L&#x27;Amara (P&amp;V Premium)" loading="lazy" referrerpolicy="no-referrer" onerror="this.remove()">
+  </div>
+  <div class="body">
+    <h4>L&#x27;Amara (P&amp;V Premium) <span class="optsub">· 3BR, mountain view</span></h4>
+    <div class="chips"><span class="chip">Ski to the door</span></div>
+    <div class="prices"><div class="price"><b>£2,100</b><span>5 nights</span></div><div class="price"><b>£2,800</b><span>7 nights</span></div></div>
+    <ul class="pc">
+      <li class="pro"><span class="mk" aria-hidden="true">+</span><span class="sr">Pro: </span>£200 less than RockyPop for 7 nights; £300 less for 5.</li>
+      <li class="pro"><span class="mk" aria-hidden="true">+</span><span class="sr">Pro: </span>Access to indoor pool and saunas. 8.9/10 from 306 reviews.</li>
+      <li class="con"><span class="mk" aria-hidden="true">–</span><span class="sr">Con: </span>Two people sleep on the living-room sofa bed.</li>
+      <li class="con"><span class="mk" aria-hidden="true">–</span><span class="sr">Con: </span>Uphill walk to the centre and ski school (for the first day or two, until the kids can ski easy blues).</li>
+    </ul>
+    <a class="btn" href="https://www.pierreetvacances.com/gb-en/fp_AVP_self-catering-premium-residence-l-amara" target="_blank" rel="noopener">pierreetvacances.com →</a>
+  </div>
+</div>
+
+<div class="card mini">
+  <div class="photo"><span>L&#x27;Amara (P&amp;V Premium)</span>
+    <img src="https://photos.pierreetvacances.com/admin/fp2/photos/panopv/1440x810/AAA_85382_panopv.jpg" alt="L&#x27;Amara (P&amp;V Premium)" loading="lazy" referrerpolicy="no-referrer" onerror="this.remove()">
+  </div>
+  <div class="body">
+    <h4>L&#x27;Amara (P&amp;V Premium) <span class="optsub">· 2 separate 2BR apartments</span></h4>
+    <div class="chips"><span class="chip">Ski to the door</span></div>
+    <div class="prices"><div class="price"><b>£2,400</b><span>5 nights</span></div><div class="price"><b>£3,100</b><span>7 nights</span></div></div>
+    <ul class="pc">
+      <li class="pro"><span class="mk" aria-hidden="true">+</span><span class="sr">Pro: </span>More space, 126 m². A double plus two singles in each, so no sofa bed.</li>
+      <li class="pro"><span class="mk" aria-hidden="true">+</span><span class="sr">Pro: </span>Access to indoor pool and saunas. 8.9/10 from 306 reviews.</li>
+      <li class="con"><span class="mk" aria-hidden="true">–</span><span class="sr">Con: </span>Separate apartments.</li>
+      <li class="con"><span class="mk" aria-hidden="true">–</span><span class="sr">Con: </span>Uphill walk to the centre and ski school (for the first day or two, until the kids can ski easy blues).</li>
+    </ul>
+    <a class="btn" href="https://www.pierreetvacances.com/gb-en/fp_AVP_self-catering-premium-residence-l-amara" target="_blank" rel="noopener">pierreetvacances.com →</a>
+  </div>
+</div>
+
+<div class="card mini">
+  <div class="photo"><span>Résidence Elinka</span>
+    <img src="https://www.avoriaz-holidays.com/_img/locations/0002800163_01.jpg" alt="Résidence Elinka" loading="lazy" referrerpolicy="no-referrer" onerror="this.remove()">
+  </div>
+  <div class="body">
+    <h4>Résidence Elinka <span class="optsub">· 4BR duplex</span></h4>
+    <div class="chips"><span class="chip">Foot of the slopes</span></div>
+    <div class="prices"><div class="price"><b>£3,300</b><span>7 nights</span></div></div>
+    <ul class="pc">
+      <li class="pro"><span class="mk" aria-hidden="true">+</span><span class="sr">Pro: </span>Four bedrooms, three bathrooms, 97 m².</li>
+      <li class="pro"><span class="mk" aria-hidden="true">+</span><span class="sr">Pro: </span>By the resort entrance; centre about 5 min walk.</li>
+      <li class="con"><span class="mk" aria-hidden="true">–</span><span class="sr">Con: </span>£300 more than RockyPop.</li>
+      <li class="con"><span class="mk" aria-hidden="true">–</span><span class="sr">Con: </span>All doubles, so kids share beds.</li>
+    </ul>
+    <a class="btn" href="https://www.avoriaz-holidays.com/en/our-rentals/el0607pg/5-rooms-4-bedrooms-8-people-avoriaz.html" target="_blank" rel="noopener">avoriaz-holidays.com →</a>
+  </div>
+</div>
+</section>
+
 <footer>
-  <p>Prices are rough, for flights plus accommodation per family, and will change with dates. Transfer times are approximate dry-road times from J2Ski and Alps2Alps: Geneva airport for Flaine and Les Arcs, Innsbruck airport for Obergurgl. Photos belong to their owners and link to official sources.</p>
-  <p>Prepared 28 October 2026.</p>
+  <p>Prices are rough, for flights plus accommodation per family, and will change with dates. Transfer times are approximate dry-road times from J2Ski and Alps2Alps: Geneva airport for Flaine and Les Arcs, Innsbruck airport for Obergurgl. Next best transfer times come from our planning table: Geneva for Avoriaz, Turin for Cervinia, Chambéry and Geneva for Courchevel. Photos belong to their owners and link to official sources.</p>
+  <p>Prepared 28 October 2026. Next best added 29 October 2026.</p>
 </footer>
 
 </div>
+
+<script>
+(function(){
+  document.documentElement.classList.add('js');
+  var tabs=[].slice.call(document.querySelectorAll('[role=tab]'));
+  function show(id,focus){
+    tabs.forEach(function(t){
+      var on=t.getAttribute('aria-controls')===id;
+      t.setAttribute('aria-selected',on);t.tabIndex=on?0:-1;
+      document.getElementById(t.getAttribute('aria-controls')).hidden=!on;
+      if(on&&focus)t.focus();
+    });
+  }
+  tabs.forEach(function(t,i){
+    t.addEventListener('click',function(){var id=t.getAttribute('aria-controls');show(id);history.replaceState(null,'','#'+id);});
+    t.addEventListener('keydown',function(e){
+      var d=e.key==='ArrowRight'?1:e.key==='ArrowLeft'?-1:0; if(!d)return;
+      var n=tabs[(i+d+tabs.length)%tabs.length]; n.click(); n.focus();
+    });
+  });
+  show(location.hash==='#next-best'?'next-best':'shortlist');
+})();
+</script>
 </body>
 </html>
