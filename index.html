@@ -53,6 +53,8 @@
   .price{flex:1;border:1px solid var(--line);border-radius:8px;padding:8px 10px}
   .price b{display:block;font-size:1.25rem;line-height:1.2}
   .price span{color:var(--muted);font-size:.8rem}
+  .price .via{display:block;font-size:.76rem}
+  .price .via.warn{color:var(--amber)}
   a.btn{display:inline-block;margin-top:6px;color:var(--accent);text-decoration:none;font-weight:600;font-size:.92rem}
   a.btn:hover{text-decoration:underline}
   .note{color:var(--muted);font-size:.85rem}
@@ -87,9 +89,9 @@
 <div class="wrap">
 
 <h1>Easter 2027 ski shortlist</h1>
-<p class="sub">Four options for the two families (4 adults, 4 kids), plus the next best.</p>
+<p class="sub">Six options for the two families (4 adults, 4 kids), plus the next best.</p>
 
-<p>Each price is <b>flights + accommodation, per family</b>. They are rough and will move with dates. We have assumed 3–10 April.</p>
+<p>Each price is <b>flights + accommodation, per family</b>. They are rough and will move with dates. Each is the cheapest 5- or 7-night stay we found between 3 and 11 April, with flights to any airport within 3 hours. The airport and transfer time are under each price; amber means over 2¼ hours.</p>
 <p><b>Last year:</b> £2,900 per family for 5 nights (flights + RockyPop). With skis, passes and lessons the total was £4,100.</p>
 
 <div class="tabs" role="tablist" aria-label="Options">
@@ -104,13 +106,16 @@
   <thead><tr><th>Option</th><th class="n">Size</th><th class="n">5 nts</th><th class="n">7 nts</th></tr></thead>
   <tbody>
     <tr class="sec"><td colspan="4">Flaine <span>· 1½ hr from Geneva</span></td></tr>
-    <tr><td>1 · <a href="https://www.flaine.com/en/fiche/rockypop-flaine-appartements-spa/" target="_blank" rel="noopener">RockyPop</a></td><td class="n">84 m²</td><td class="n">£2,400</td><td class="n">£3,000</td></tr>
-    <tr><td>2a · <a href="https://www.flaine.com/en/fiche/residence-le-centaure/" target="_blank" rel="noopener">Centaure</a>, 3BR + sofa bed</td><td class="n">72 m²</td><td class="n">£2,200</td><td class="n">£2,600</td></tr>
-    <tr><td>2b · <a href="https://www.flaine.com/en/fiche/residence-le-centaure/" target="_blank" rel="noopener">Centaure</a>, 2 apartments</td><td class="n">90 m²</td><td class="n">£2,500</td><td class="n">£3,000</td></tr>
-    <tr class="sec"><td colspan="4">Les Arcs <span>· 2 hr 40 from Geneva</span></td></tr>
-    <tr><td>3 · <a href="https://www.pierreetvacances.com/gb-en/fp_AWL_self-catering-arc-1950-village" target="_blank" rel="noopener">Arc 1950 Le Village</a>, 4BR</td><td class="n">100 m²</td><td class="n">–</td><td class="n">£3,300</td></tr>
+    <tr><td>1 · <a href="https://www.flaine.com/en/fiche/rockypop-flaine-appartements-spa/" target="_blank" rel="noopener">RockyPop</a></td><td class="n">84 m²</td><td class="n">£2,200</td><td class="n">£2,800</td></tr>
+    <tr><td>2a · <a href="https://www.flaine.com/en/fiche/residence-le-centaure/" target="_blank" rel="noopener">Centaure</a>, 3BR + sofa bed</td><td class="n">72 m²</td><td class="n">£2,000</td><td class="n">£2,100</td></tr>
+    <tr><td>2b · <a href="https://www.flaine.com/en/fiche/residence-le-centaure/" target="_blank" rel="noopener">Centaure</a>, 2 apartments</td><td class="n">90 m²</td><td class="n">£2,400</td><td class="n">£2,500</td></tr>
+    <tr class="sec"><td colspan="4">Les Arcs <span>· 2½ hr from Grenoble</span></td></tr>
+    <tr><td>3 · <a href="https://www.pierreetvacances.com/gb-en/fp_AWL_self-catering-arc-1950-village" target="_blank" rel="noopener">Arc 1950 Le Village</a>, 4BR duplex</td><td class="n">90 m²</td><td class="n">–</td><td class="n">£2,800</td></tr>
     <tr class="sec"><td colspan="4">Obergurgl <span>· 1½ hr from Innsbruck</span></td></tr>
     <tr><td>4 · <a href="https://www.abitare-chalets.com/en/apartments-obergurgl-tyrol/the-chalet/" target="_blank" rel="noopener">The Chalet</a>, 3BR + mezzanine</td><td class="n">160 m²</td><td class="n">–</td><td class="n">£3,100</td></tr>
+    <tr class="sec"><td colspan="4">Courchevel 1850 <span>· 2½ hr from Grenoble</span></td></tr>
+    <tr><td>5 · <a href="https://cimalpes.com/en/rental-courchevel/appartement-portes-de-courchevel-330b/" target="_blank" rel="noopener">Portes de Courchevel 330B</a>, 3BR + bunk cabin</td><td class="n">77 m²</td><td class="n">–</td><td class="n">£3,000</td></tr>
+    <tr><td>6 · <a href="https://cimalpes.com/fr/location-courchevel/appartement-follieres-2/" target="_blank" rel="noopener">Les Follières 2</a>, 4BR</td><td class="n">106 m²</td><td class="n">–</td><td class="n">£3,500</td></tr>
   </tbody>
 </table>
 </div>
@@ -127,8 +132,8 @@
     <h3>1 · RockyPop</h3>
     <div class="chips"><span class="chip">Same as last year</span><span class="chip">4★</span><span class="chip">84 m²</span></div>
     <div class="prices">
-      <div class="price"><b>£2,400</b><span>5 nights</span></div>
-      <div class="price"><b>£3,000</b><span>7 nights</span></div>
+      <div class="price"><b>£2,200</b><span>5 nights</span><span class="via">Geneva · 1h25</span></div>
+      <div class="price"><b>£2,800</b><span>7 nights</span><span class="via warn">Lyon · 2h20</span></div>
     </div>
     <ul>
       <li>Spa with a 12 m indoor pool, sauna and hammam, plus a kids' area.</li>
@@ -154,15 +159,15 @@
     <div class="opt">
       <div class="opthead">2a · 3BR + sofa bed <span class="optsub">· 72 m²</span></div>
       <div class="prices">
-        <div class="price"><b>£2,200</b><span>5 nights</span></div>
-        <div class="price"><b>£2,600</b><span>7 nights</span></div>
+        <div class="price"><b>£2,000</b><span>5 nights</span><span class="via warn">Lyon · 2h20</span></div>
+        <div class="price"><b>£2,100</b><span>7 nights</span><span class="via">Grenoble · 2h10</span></div>
       </div>
     </div>
     <div class="opt">
       <div class="opthead">2b · 2 separate apartments <span class="optsub">· 90 m² in total</span></div>
       <div class="prices">
-        <div class="price"><b>£2,500</b><span>5 nights</span></div>
-        <div class="price"><b>£3,000</b><span>7 nights</span></div>
+        <div class="price"><b>£2,400</b><span>5 nights</span><span class="via warn">Lyon · 2h20</span></div>
+        <div class="price"><b>£2,500</b><span>7 nights</span><span class="via">Grenoble · 2h10</span></div>
       </div>
     </div>
     <a class="btn" href="https://www.flaine.com/en/fiche/residence-le-centaure/" target="_blank" rel="noopener">Property page →</a>
@@ -170,8 +175,8 @@
 </div>
 
 <!-- ============ LES ARCS ============ -->
-<h2>Les Arcs <span class="note">· about 2 hr 40 from Geneva</span></h2>
-<p class="note">Part of Paradiski, a very large ski area. The longest transfer on the list.</p>
+<h2>Les Arcs <span class="note">· about 2½ hr from Grenoble</span></h2>
+<p class="note">Part of Paradiski, a very large ski area. One of the longer transfers.</p>
 
 <div class="card">
   <div class="photo"><span>Arc 1950 Le Village</span>
@@ -181,15 +186,16 @@
     <h3>3 · Arc 1950 Le Village</h3>
     <div class="chips"><span class="chip">Ski-in / ski-out</span><span class="chip">5★ P&amp;V Premium</span><span class="chip warn">Transfer over 2¼ hr</span></div>
     <div class="opt">
-      <div class="opthead">4BR <span class="optsub">· 100 m²</span></div>
+      <div class="opthead">4BR duplex, B buildings <span class="optsub">· about 90 m²</span></div>
       <div class="prices">
-        <div class="price"><b>£3,300</b><span>7 nights</span></div>
+        <div class="price"><b>£2,800</b><span>7 nights</span><span class="via warn">Grenoble · 2h30</span></div>
       </div>
     </div>
     <ul>
       <li>Car-free village with shops, restaurants and a kids' club (ages 3–12, paid).</li>
-      <li>Heated outdoor pool. Whether you get an indoor or outdoor pool depends on the apartment and building.</li>
-      <li>Hammam, sauna and hot tub are included. The Deep Nature spa is paid.</li>
+      <li>In the Prince des Cîmes building, about 50 m from the nearest lift.</li>
+      <li>A double and three twin rooms, so 8 real beds. The lounge sofa bed is spare.</li>
+      <li>Indoor pool, sauna, hammam and gym in the building.</li>
       <li>Paradiski has 425 km of pistes.</li>
     </ul>
     <p><b>Kids and April</b></p>
@@ -216,7 +222,7 @@
     <div class="opt">
       <div class="opthead">3BR + mezzanine <span class="optsub">· 160 m²</span></div>
       <div class="prices">
-        <div class="price"><b>£3,100</b><span>7 nights</span></div>
+        <div class="price"><b>£3,100</b><span>7 nights</span><span class="via">Innsbruck · 1h30</span></div>
       </div>
     </div>
     <ul>
@@ -241,12 +247,77 @@
   </div>
 </div>
 
+<!-- ============ COURCHEVEL 1850 ============ -->
+<h2>Courchevel 1850 <span class="note">· about 2½ hr from Grenoble</span></h2>
+<p class="note">The top village of Courchevel, in Les 3 Vallées. Snow-sure and central, but expensive, and some pistes get crowded in high season.</p>
+
+<div class="card">
+  <div class="photo"><span>Portes de Courchevel 330B</span>
+    <img src="https://cimalpes.com/cache/photos/2000/photos_bien_4041_salon.webp" alt="Portes de Courchevel 330B, living room" loading="lazy" referrerpolicy="no-referrer" onerror="this.remove()">
+  </div>
+  <div class="body">
+    <h3>5 · Portes de Courchevel 330B</h3>
+    <div class="chips"><span class="chip">Next to the piste</span><span class="chip">Sauna in the flat</span><span class="chip warn">Transfer over 2¼ hr</span></div>
+    <div class="opt">
+      <div class="opthead">3BR + bunk cabin <span class="optsub">· 77 m²</span></div>
+      <div class="prices">
+        <div class="price"><b>£3,000</b><span>7 nights</span><span class="via warn">Grenoble · 2h30</span></div>
+      </div>
+    </div>
+    <ul>
+      <li>In the centre of 1850, 10 m from the Tovets piste and about 250 m from the main lifts and ski school.</li>
+      <li>Two doubles, a room that can be double or twin, and a children's bunk cabin. No sofa bed.</li>
+      <li>Two bathrooms plus a separate WC. One bathroom has a sauna.</li>
+      <li>The smallest flat on the shortlist.</li>
+    </ul>
+    <a class="btn" href="https://cimalpes.com/en/rental-courchevel/appartement-portes-de-courchevel-330b/" target="_blank" rel="noopener">Property page →</a>
+  </div>
+</div>
+
+<div class="card">
+  <div class="photo"><span>Les Follières 2</span>
+    <img src="https://cimalpes.com/cache/photos/2000/photos_bien_256_03-folieres1-lounge.webp" alt="Les Follières 2, lounge" loading="lazy" referrerpolicy="no-referrer" onerror="this.remove()">
+  </div>
+  <div class="body">
+    <h3>6 · Les Follières 2</h3>
+    <div class="chips"><span class="chip">Centre of 1850</span><span class="chip">106 m²</span><span class="chip warn">Transfer over 2¼ hr</span></div>
+    <div class="opt">
+      <div class="opthead">4BR <span class="optsub">· 106 m²</span></div>
+      <div class="prices">
+        <div class="price"><b>£3,500</b><span>7 nights</span><span class="via warn">Grenoble · 2h30</span></div>
+      </div>
+    </div>
+    <ul>
+      <li>On Rue des Tovets: 200 m to the Tovets piste, 260 m to the main lifts and ski school.</li>
+      <li>Three doubles and a children's bunk room, with three bathrooms. No sofa bed.</li>
+      <li>Balcony. The flat faces north and east.</li>
+      <li>The dearest option on the shortlist.</li>
+    </ul>
+    <a class="btn" href="https://cimalpes.com/fr/location-courchevel/appartement-follieres-2/" target="_blank" rel="noopener">Property page →</a>
+  </div>
+</div>
+
+<div class="box">
+  <p><b>Kids</b></p>
+  <ul>
+    <li>ESF's Village des Enfants has beginner zones with covered magic carpets.</li>
+    <li>Kids at 2nd star and above meet at the Croisette snow front, in the centre of 1850.</li>
+    <li>Group lessons run 9:30–11:45 and 14:15–16:45. A course starts on 3 April.</li>
+  </ul>
+  <p><b>April</b></p>
+  <ul>
+    <li>85% of Courchevel's slopes are above 1,800 m.</li>
+    <li>The season runs to 18 April 2027, so 3–10 April is fine.</li>
+    <li>Les 3 Vallées has about 600 km of pistes.</li>
+  </ul>
+</div>
+
 </section>
 
 <!-- ============ NEXT BEST ============ -->
 <section id="next-best" role="tabpanel" aria-labelledby="tab-next-best">
 <h2>Next best</h2>
-<p>Viable, but not in our top four. Each has a good reason to consider it and a reason it didn't make the shortlist. Prices compare with RockyPop at £3,000 for 7 nights (£2,400 for 5).</p>
+<p>Viable, but not on our shortlist. Each has a good reason to consider it and a reason it didn't make the cut. Prices compare with RockyPop at £2,800 for 7 nights (£2,200 for 5).</p>
 
 <h3 class="resort">Obergurgl <span class="note">· about 1½ hr from Innsbruck</span></h3>
 <p class="note">Pretty, traditional village, wide open and not too busy, with snow-sure beginner slopes and a short transfer, but flights are expensive.</p>
@@ -258,11 +329,12 @@
   <div class="body">
     <h4>Alpenresidenz Gurgl <span class="optsub">· Apartment D-4</span></h4>
     <div class="chips"><span class="chip">5 min walk to lifts</span></div>
-    <div class="prices"><div class="price"><b>£3,100</b><span>7 nights</span></div></div>
+    <div class="prices"><div class="price"><b>£3,100</b><span>7 nights</span><span class="via">Innsbruck · 1h30</span></div></div>
     <ul class="pc">
       <li class="pro"><span class="mk" aria-hidden="true">+</span><span class="sr">Pro: </span>One flat for all 8, two bathrooms.</li>
       <li class="pro"><span class="mk" aria-hidden="true">+</span><span class="sr">Pro: </span>Access to sauna and steam room.</li>
       <li class="con"><span class="mk" aria-hidden="true">–</span><span class="sr">Con: </span>Only 2 bedrooms, so kids sleep on pull-outs in their parents&#x27; room.</li>
+      <li class="con"><span class="mk" aria-hidden="true">–</span><span class="sr">Con: </span>£300 more than RockyPop.</li>
     </ul>
     <a class="btn" href="https://www.alpenresidenz-gurgl.at/en/rooms-apartments/apartments/apartments-4-8-people/" target="_blank" rel="noopener">alpenresidenz-gurgl.at →</a>
   </div>
@@ -275,13 +347,13 @@
   <div class="body">
     <h4>Abitare Chalets <span class="optsub">· Everest apartment</span></h4>
     <div class="chips"><span class="chip">10 min walk to lifts</span></div>
-    <div class="prices"><div class="price"><b>£3,400</b><span>7 nights</span></div></div>
+    <div class="prices"><div class="price"><b>£3,400</b><span>7 nights</span><span class="via">Innsbruck · 1h30</span></div></div>
     <ul class="pc">
       <li class="pro"><span class="mk" aria-hidden="true">+</span><span class="sr">Pro: </span>Big: 140 m², four bedrooms, four bathrooms.</li>
       <li class="pro"><span class="mk" aria-hidden="true">+</span><span class="sr">Pro: </span>Access to sauna and steam bath.</li>
       <li class="pro"><span class="mk" aria-hidden="true">+</span><span class="sr">Pro: </span>9.5/10 on Booking (34 reviews).</li>
       <li class="con"><span class="mk" aria-hidden="true">–</span><span class="sr">Con: </span>10 min uphill to lifts and ski school, or a shuttle.</li>
-      <li class="con"><span class="mk" aria-hidden="true">–</span><span class="sr">Con: </span>£400 more than RockyPop.</li>
+      <li class="con"><span class="mk" aria-hidden="true">–</span><span class="sr">Con: </span>£600 more than RockyPop.</li>
     </ul>
     <a class="btn" href="https://www.abitare-chalets.com/en/apartments-obergurgl-tyrol/everest/" target="_blank" rel="noopener">abitare-chalets.com →</a>
   </div>
@@ -294,14 +366,14 @@
   <div class="body">
     <h4>Das Hochegg <span class="optsub">· 2 × 1BR</span></h4>
     <div class="chips"><span class="chip">On the ski run</span></div>
-    <div class="prices"><div class="price"><b>£3,400</b><span>7 nights</span></div></div>
+    <div class="prices"><div class="price"><b>£3,400</b><span>7 nights</span><span class="via">Innsbruck · 1h30</span></div></div>
     <ul class="pc">
       <li class="pro"><span class="mk" aria-hidden="true">+</span><span class="sr">Pro: </span>On the edge of the ski run, close to ski school.</li>
       <li class="pro"><span class="mk" aria-hidden="true">+</span><span class="sr">Pro: </span>Access to sauna and infrared cabin.</li>
       <li class="pro"><span class="mk" aria-hidden="true">+</span><span class="sr">Pro: </span>10/10 on Booking.com.</li>
       <li class="con"><span class="mk" aria-hidden="true">–</span><span class="sr">Con: </span>Two separate, small flats (about 50 m² each).</li>
       <li class="con"><span class="mk" aria-hidden="true">–</span><span class="sr">Con: </span>Kids on a living-room sofa bed in each flat.</li>
-      <li class="con"><span class="mk" aria-hidden="true">–</span><span class="sr">Con: </span>£400 more than RockyPop.</li>
+      <li class="con"><span class="mk" aria-hidden="true">–</span><span class="sr">Con: </span>£600 more than RockyPop.</li>
     </ul>
     <a class="btn" href="https://www.hochegg.at/en/" target="_blank" rel="noopener">hochegg.at →</a>
   </div>
@@ -314,12 +386,12 @@
   <div class="body">
     <h4>Haus Elisabeth <span class="optsub">· 2 apartments</span></h4>
     <div class="chips"><span class="chip">5 min walk to centre</span></div>
-    <div class="prices"><div class="price"><b>£3,600</b><span>7 nights</span></div></div>
+    <div class="prices"><div class="price"><b>£3,600</b><span>7 nights</span><span class="via">Innsbruck · 1h30</span></div></div>
     <ul class="pc">
       <li class="pro"><span class="mk" aria-hidden="true">+</span><span class="sr">Pro: </span>5.0/5 from 25 reviews.</li>
       <li class="pro"><span class="mk" aria-hidden="true">+</span><span class="sr">Pro: </span>Access to sauna.</li>
       <li class="con"><span class="mk" aria-hidden="true">–</span><span class="sr">Con: </span>Separate apartments, one bigger than the other, and kids on a sofa bed in one.</li>
-      <li class="con"><span class="mk" aria-hidden="true">–</span><span class="sr">Con: </span>£600 more than RockyPop.</li>
+      <li class="con"><span class="mk" aria-hidden="true">–</span><span class="sr">Con: </span>£800 more than RockyPop.</li>
     </ul>
     <a class="btn" href="https://www.oetztal.com/en/search-book/accommodations/-/haus-elisabeth.a-06460dc6-dc9d-4589-8d73-75e0fa6a0d4f" target="_blank" rel="noopener">oetztal.com →</a>
   </div>
@@ -334,12 +406,12 @@
   <div class="body">
     <h4>Les Clochards <span class="optsub">· 3BR + sofa bed</span></h4>
     <div class="chips"><span class="chip">On the piste</span></div>
-    <div class="prices"><div class="price"><b>£3,600</b><span>7 nights</span></div></div>
+    <div class="prices"><div class="price"><b>£2,800</b><span>7 nights</span><span class="via">Milan · 2h05</span></div></div>
     <ul class="pc">
       <li class="pro"><span class="mk" aria-hidden="true">+</span><span class="sr">Pro: </span>On a blue piste close to the lifts.</li>
+      <li class="pro"><span class="mk" aria-hidden="true">+</span><span class="sr">Pro: </span>Same price as RockyPop.</li>
       <li class="con"><span class="mk" aria-hidden="true">–</span><span class="sr">Con: </span>10 min walk into the village for dinner and ski school.</li>
       <li class="con"><span class="mk" aria-hidden="true">–</span><span class="sr">Con: </span>Still being converted. Size and layout not published.</li>
-      <li class="con"><span class="mk" aria-hidden="true">–</span><span class="sr">Con: </span>£600 more than RockyPop.</li>
     </ul>
     <a class="btn" href="https://lesclochards.com" target="_blank" rel="noopener">lesclochards.com →</a>
   </div>
@@ -355,55 +427,18 @@
   <div class="body">
     <h4>Aspen Lodge A31 <span class="optsub">· 4BR duplex</span></h4>
     <div class="chips"><span class="chip">150 m to lifts</span></div>
-    <div class="prices"><div class="price"><b>£4,300</b><span>7 nights</span></div></div>
+    <div class="prices"><div class="price"><b>£3,000</b><span>7 nights</span><span class="via warn">Grenoble · 2h30</span></div></div>
     <ul class="pc">
       <li class="pro"><span class="mk" aria-hidden="true">+</span><span class="sr">Pro: </span>Close to lifts and ski school, in the village centre.</li>
       <li class="pro"><span class="mk" aria-hidden="true">+</span><span class="sr">Pro: </span>112 m², three doubles plus bunk room, three bathrooms. No sofa bed.</li>
-      <li class="con"><span class="mk" aria-hidden="true">–</span><span class="sr">Con: </span>£1,300 more than RockyPop.</li>
+      <li class="con"><span class="mk" aria-hidden="true">–</span><span class="sr">Con: </span>£200 more than RockyPop.</li>
     </ul>
     <a class="btn" href="https://cimalpes.com/en/rental-courchevel/appartement-aspen-lodge-a31/" target="_blank" rel="noopener">cimalpes.com →</a>
   </div>
 </div>
 
-<h3 class="resort">Courchevel 1850 <span class="note">· about 1½ hr from Chambéry, 2½ hr from Geneva</span></h3>
-<p class="note">Snow-sure, with skiing from 1,850 m to 3,200 m, but expensive, and some pistes get crowded in high season.</p>
-
-<div class="card mini">
-  <div class="photo"><span>Portes de Courchevel 330B</span>
-    <img src="https://cimalpes.com/cache/photos/2000/photos_bien_4041_salon.webp" alt="Portes de Courchevel 330B" loading="lazy" referrerpolicy="no-referrer" onerror="this.remove()">
-  </div>
-  <div class="body">
-    <h4>Portes de Courchevel 330B <span class="optsub">· 3BR + bunk cabin</span></h4>
-    <div class="chips"><span class="chip">10 m to the piste</span></div>
-    <div class="prices"><div class="price"><b>£4,300</b><span>7 nights</span></div></div>
-    <ul class="pc">
-      <li class="pro"><span class="mk" aria-hidden="true">+</span><span class="sr">Pro: </span>Next to the Tovets piste, in the centre.</li>
-      <li class="con"><span class="mk" aria-hidden="true">–</span><span class="sr">Con: </span>Only 77 m² for 8, two bathrooms.</li>
-      <li class="con"><span class="mk" aria-hidden="true">–</span><span class="sr">Con: </span>£1,300 more than RockyPop.</li>
-    </ul>
-    <a class="btn" href="https://cimalpes.com/en/rental-courchevel/appartement-portes-de-courchevel-330b/" target="_blank" rel="noopener">cimalpes.com →</a>
-  </div>
-</div>
-
-<div class="card mini">
-  <div class="photo"><span>Les Follières 2</span>
-    <img src="https://cimalpes.com/cache/photos/2000/photos_bien_256_03-folieres1-lounge.webp" alt="Les Follières 2" loading="lazy" referrerpolicy="no-referrer" onerror="this.remove()">
-  </div>
-  <div class="body">
-    <h4>Les Follières 2 <span class="optsub">· 4BR</span></h4>
-    <div class="chips"><span class="chip">260 m to lifts</span></div>
-    <div class="prices"><div class="price"><b>£4,800</b><span>7 nights</span></div></div>
-    <ul class="pc">
-      <li class="pro"><span class="mk" aria-hidden="true">+</span><span class="sr">Pro: </span>106 m², three doubles plus bunk room, three bathrooms. No sofa bed.</li>
-      <li class="pro"><span class="mk" aria-hidden="true">+</span><span class="sr">Pro: </span>Short walk to lift and ski school.</li>
-      <li class="con"><span class="mk" aria-hidden="true">–</span><span class="sr">Con: </span>£1,800 more than RockyPop. Dearest option.</li>
-    </ul>
-    <a class="btn" href="https://cimalpes.com/fr/location-courchevel/appartement-follieres-2/" target="_blank" rel="noopener">cimalpes.com →</a>
-  </div>
-</div>
-
 <h3 class="resort">Avoriaz <span class="note">· about 1 hr 35 from Geneva</span></h3>
-<p class="note">Car-free resort and the cheapest options on the list, but beginner slopes are more likely to be slushy in April than in Flaine.</p>
+<p class="note">Car-free resort with some of the cheapest options, but beginner slopes are more likely to be slushy in April than in Flaine.</p>
 
 <div class="card mini">
   <div class="photo"><span>L&#x27;Amara (P&amp;V Premium)</span>
@@ -412,9 +447,9 @@
   <div class="body">
     <h4>L&#x27;Amara (P&amp;V Premium) <span class="optsub">· 3BR, mountain view</span></h4>
     <div class="chips"><span class="chip">Ski to the door</span></div>
-    <div class="prices"><div class="price"><b>£2,100</b><span>5 nights</span></div><div class="price"><b>£2,800</b><span>7 nights</span></div></div>
+    <div class="prices"><div class="price"><b>£2,000</b><span>5 nights</span><span class="via warn">Lyon · 2h35</span></div><div class="price"><b>£2,600</b><span>7 nights</span><span class="via warn">Lyon · 2h35</span></div></div>
     <ul class="pc">
-      <li class="pro"><span class="mk" aria-hidden="true">+</span><span class="sr">Pro: </span>£200 less than RockyPop for 7 nights; £300 less for 5.</li>
+      <li class="pro"><span class="mk" aria-hidden="true">+</span><span class="sr">Pro: </span>£200 less than RockyPop for 5 or 7 nights.</li>
       <li class="pro"><span class="mk" aria-hidden="true">+</span><span class="sr">Pro: </span>Access to indoor pool and saunas. 8.9/10 from 306 reviews.</li>
       <li class="con"><span class="mk" aria-hidden="true">–</span><span class="sr">Con: </span>Two people sleep on the living-room sofa bed.</li>
       <li class="con"><span class="mk" aria-hidden="true">–</span><span class="sr">Con: </span>Uphill walk to the centre and ski school (for the first day or two, until the kids can ski easy blues).</li>
@@ -430,7 +465,7 @@
   <div class="body">
     <h4>L&#x27;Amara (P&amp;V Premium) <span class="optsub">· 2 separate 2BR apartments</span></h4>
     <div class="chips"><span class="chip">Ski to the door</span></div>
-    <div class="prices"><div class="price"><b>£2,400</b><span>5 nights</span></div><div class="price"><b>£3,100</b><span>7 nights</span></div></div>
+    <div class="prices"><div class="price"><b>£2,200</b><span>5 nights</span><span class="via warn">Lyon · 2h35</span></div><div class="price"><b>£2,900</b><span>7 nights</span><span class="via warn">Lyon · 2h35</span></div></div>
     <ul class="pc">
       <li class="pro"><span class="mk" aria-hidden="true">+</span><span class="sr">Pro: </span>More space, 126 m². A double plus two singles in each, so no sofa bed.</li>
       <li class="pro"><span class="mk" aria-hidden="true">+</span><span class="sr">Pro: </span>Access to indoor pool and saunas. 8.9/10 from 306 reviews.</li>
@@ -448,7 +483,7 @@
   <div class="body">
     <h4>Résidence Elinka <span class="optsub">· 4BR duplex</span></h4>
     <div class="chips"><span class="chip">Foot of the slopes</span></div>
-    <div class="prices"><div class="price"><b>£3,300</b><span>7 nights</span></div></div>
+    <div class="prices"><div class="price"><b>£3,100</b><span>7 nights</span><span class="via">Chambéry · 1h50</span></div></div>
     <ul class="pc">
       <li class="pro"><span class="mk" aria-hidden="true">+</span><span class="sr">Pro: </span>Four bedrooms, three bathrooms, 97 m².</li>
       <li class="pro"><span class="mk" aria-hidden="true">+</span><span class="sr">Pro: </span>By the resort entrance; centre about 5 min walk.</li>
@@ -461,8 +496,8 @@
 </section>
 
 <footer>
-  <p>Prices are rough, for flights plus accommodation per family, and will change with dates. Transfer times are approximate dry-road times from J2Ski and Alps2Alps: Geneva airport for Flaine and Les Arcs, Innsbruck airport for Obergurgl. Next best transfer times come from our planning table: Geneva for Avoriaz, Turin for Cervinia, Chambéry and Geneva for Courchevel. Photos belong to their owners and link to official sources.</p>
-  <p>Prepared 28 October 2026. Next best added 29 October 2026.</p>
+  <p>Prices are rough, for flights plus accommodation per family, and will change with dates. Transfer times are approximate dry-road times from our planning table (J2Ski and Alps2Alps). Resort headings give a typical airport; each price shows the airport its flights use. Photos belong to their owners and link to official sources.</p>
+  <p>Prepared 28 October 2026. Updated 29 October 2026 with new flight prices and Courchevel 1850.</p>
 </footer>
 
 </div>
