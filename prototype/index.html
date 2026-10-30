@@ -7,11 +7,11 @@
 <style>
   :root{
     --bg:#fafaf8; --card:#fff; --text:#1d2329; --muted:#5d6872; --line:#e3e6e8;
-    --accent:#1f5f8b; --soft:#eef4f8; --amber:#a4620a; --amber-bg:#fdf3e2;
+    --accent:#1f5f8b; --rule:rgba(29,35,41,.3); --soft:#eef4f8; --amber:#a4620a; --amber-bg:#fdf3e2;
   }
   @media (prefers-color-scheme: dark){
     :root{ --bg:#14181c; --card:#1c2227; --text:#e8ecef; --muted:#9aa6af; --line:#2c353c;
-           --accent:#7fb8e0; --soft:#1f2c36; --amber:#f0b45c; --amber-bg:#33291a; }
+           --accent:#7fb8e0; --rule:rgba(232,236,239,.3); --soft:#1f2c36; --amber:#f0b45c; --amber-bg:#33291a; }
   }
   *{box-sizing:border-box}
   body{margin:0;background:var(--bg);color:var(--text);
@@ -168,9 +168,11 @@
 
   /* 2 resort bands */
   body.t-bands .oldhead,body.t-bands #snow-glance,body.t-bands .resortinfo,body.t-bands li.resortli{display:none}
-  body.t-bands .band{display:block;background:var(--soft);border-radius:10px;padding:10px 14px;margin:28px 0 10px}
+  body.t-bands .band{display:block;position:relative;background:var(--soft);border-radius:10px;padding:10px 14px;margin:62px 0 0}
+  body.t-bands .band::before{content:"";position:absolute;left:0;right:0;top:-16px;border-top:2px solid var(--rule)}
+  body.t-bands .band + .card{margin-top:10px}
   .bandhead{display:flex;flex-wrap:wrap;align-items:baseline;gap:0 8px;margin-bottom:2px}
-  .band .bh{font-size:1.1rem;margin:0;line-height:1.3}
+  .band .bh{font-size:1.25rem;font-weight:700;margin:0;line-height:1.3}
   .bandair{color:var(--muted);font-size:.88rem}
   .band p.bl{font-size:.88rem;margin:4px 0 0}
 
@@ -205,7 +207,7 @@
   body.t-cap ul:not(.open) > li.extra{display:none}
 </style>
 </head>
-<body class="t-thumbs t-bands t-prices t-nav t-cap">
+<body class="t-thumbs t-bands t-prices t-nav">
 <div class="proto" id="proto" role="region" aria-label="Prototype controls">
   <div class="proto-in">
     <div class="proto-top">
@@ -219,7 +221,7 @@
       <div class="ctl"><label class="sw"><input type="checkbox" data-t="bands" checked><span class="trk"></span>2 Resort bands</label><span class="ds">One header band per resort; resort info moves out of the cards.</span><span class="sv" data-sv="bands"></span></div>
       <div class="ctl"><label class="sw"><input type="checkbox" data-t="prices" checked><span class="trk"></span>3 Compact prices</label><span class="ds">One price line per option instead of boxed tiles.</span><span class="sv" data-sv="prices"></span></div>
       <div class="ctl"><label class="sw"><input type="checkbox" data-t="nav" checked><span class="trk"></span>4 Navigation</label><span class="ds">Sticky jump bar; glance-table rows link to their cards.</span><span class="sv" data-sv="nav"></span></div>
-      <div class="ctl"><label class="sw"><input type="checkbox" data-t="cap" checked><span class="trk"></span>5 Bullet cap</label><span class="ds">Max 3 bullets per list; the rest behind a "More" button.</span><span class="sv" data-sv="cap"></span></div>
+      <div class="ctl"><label class="sw"><input type="checkbox" data-t="cap"><span class="trk"></span>5 Bullet cap</label><span class="ds">Max 3 bullets per list; the rest behind a "More" button.</span><span class="sv" data-sv="cap"></span></div>
     </div>
   </div>
 </div>
@@ -986,7 +988,7 @@ const PHOTOS = {
   window.addEventListener('load',function(){ recompute(); setTimeout(recompute,600); });
   if(window.ResizeObserver) new ResizeObserver(offsets).observe(proto);
 
-  setState({thumbs:1,bands:1,prices:1,nav:1,cap:1});
+  setState({thumbs:1,bands:1,prices:1,nav:1,cap:0});
   show(location.hash==='#next-best'?'next-best':'shortlist');
   recompute();
 })();
