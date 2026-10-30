@@ -1,0 +1,996 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ski shortlist layout prototype</title>
+<style>
+  :root{
+    --bg:#fafaf8; --card:#fff; --text:#1d2329; --muted:#5d6872; --line:#e3e6e8;
+    --accent:#1f5f8b; --soft:#eef4f8; --amber:#a4620a; --amber-bg:#fdf3e2;
+  }
+  @media (prefers-color-scheme: dark){
+    :root{ --bg:#14181c; --card:#1c2227; --text:#e8ecef; --muted:#9aa6af; --line:#2c353c;
+           --accent:#7fb8e0; --soft:#1f2c36; --amber:#f0b45c; --amber-bg:#33291a; }
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--text);
+       font:16px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif}
+  .wrap{max-width:760px;margin:0 auto;padding:20px 16px 48px}
+  h1{font-size:1.6rem;line-height:1.2;margin:8px 0 4px}
+  h2{font-size:1.15rem;margin:32px 0 4px}
+  h3{font-size:1.05rem;margin:0 0 2px}
+  p{margin:0 0 10px}
+  .sub{color:var(--muted);margin-bottom:16px}
+  .box{background:var(--soft);border-radius:10px;padding:12px 14px;margin:12px 0}
+  .box p:last-child{margin:0}
+  table{width:100%;border-collapse:collapse;font-size:.92rem}
+  th,td{text-align:left;padding:7px 6px;border-bottom:1px solid var(--line);vertical-align:top}
+  th{color:var(--muted);font-weight:600;font-size:.8rem}
+  td.n,th.n{text-align:right;white-space:nowrap}
+  .scroll{overflow-x:auto}
+  table.glance th,table.glance td{padding:7px 4px}
+  table.glance a{color:var(--accent);text-decoration:none}
+  table.glance a:hover{text-decoration:underline}
+  tr.sec td{background:var(--soft);font-weight:600;padding:6px 8px;border-bottom:0}
+  tr.sec td span{color:var(--muted);font-weight:400;font-size:.85rem}
+  @container (max-width:388px){ table{font-size:.86rem} }
+  .card{background:var(--card);border:1px solid var(--line);border-radius:12px;overflow:hidden;margin:14px 0}
+  .photo{position:relative;aspect-ratio:16/9;background:linear-gradient(135deg,#8fb4cc,#d8e6ef);
+         display:flex;align-items:center;justify-content:center;color:#2b4a60;font-weight:600;text-align:center;padding:12px}
+  .photo img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+  .body{padding:14px 14px 12px}
+  .chips{display:flex;flex-wrap:wrap;gap:6px;margin:6px 0 10px}
+  .chip{font-size:.78rem;border:1px solid var(--line);border-radius:999px;padding:2px 9px;color:var(--muted)}
+  .chip.warn{color:var(--amber);background:var(--amber-bg);border-color:transparent}
+  ul{margin:8px 0 10px;padding-left:18px}
+  li{margin:3px 0}
+  .opt{border-top:1px solid var(--line);padding-top:10px;margin-top:10px}
+  .opt:first-of-type{border-top:0;margin-top:0;padding-top:0}
+  .opthead{font-weight:600}
+  .optsub{color:var(--muted);font-size:.88rem}
+  .prices{display:flex;gap:10px;margin:8px 0 2px}
+  .price{flex:1;border:1px solid var(--line);border-radius:8px;padding:8px 10px}
+  .price b{display:block;font-size:1.25rem;line-height:1.2}
+  .price span{color:var(--muted);font-size:.8rem}
+  .price .via{display:block;font-size:.76rem}
+  .price .via.warn,.price .warnt{color:var(--amber)}
+  .price .alt{display:block;font-size:.74rem;margin-top:4px;padding-top:4px;border-top:1px solid var(--line)}
+  a.btn{display:inline-block;margin-top:6px;color:var(--accent);text-decoration:none;font-weight:600;font-size:.92rem}
+  a.btn:hover{text-decoration:underline}
+  .note{color:var(--muted);font-size:.85rem}
+  footer{margin-top:32px;color:var(--muted);font-size:.82rem;border-top:1px solid var(--line);padding-top:12px}
+
+  .tabs{display:none;gap:4px;border-bottom:1px solid var(--line);margin:18px 0 0}
+  .js .tabs{display:flex}
+  .tabs button{font:inherit;font-size:.95rem;font-weight:600;color:var(--muted);background:none;border:0;
+       border-bottom:2px solid transparent;padding:8px 12px;margin-bottom:-1px;cursor:pointer}
+  .tabs button[aria-selected="true"]{color:var(--accent);border-bottom-color:var(--accent)}
+  .tabs button:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:4px}
+  .js section[role=tabpanel][hidden]{display:none}
+  section[role=tabpanel] > h2:first-child{margin-top:24px}
+  h3.resort{font-size:1.1rem;margin:28px 0 4px}
+  h4{font-size:1rem;margin:0 0 2px}
+  .card.mini .photo{aspect-ratio:3/1;font-size:.9rem}
+  @container (min-width:528px){
+    .card.mini{display:grid;grid-template-columns:200px 1fr}
+    .card.mini .photo{aspect-ratio:auto;min-height:100%}
+  }
+  .card.mini .price{flex:0 1 150px}
+  .card.mini .price b{font-size:1.1rem}
+  ul.pc{list-style:none;padding-left:0;margin:10px 0}
+  ul.pc li{display:flex;gap:8px;align-items:baseline}
+  ul.pc .mk{flex:0 0 12px;font-weight:700;text-align:center}
+  ul.pc li.pro .mk{color:var(--accent)}
+  ul.pc li.con .mk{color:var(--amber)}
+  .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+
+  /* ================= PROTOTYPE ADDITIONS ================= */
+  :root{ --pbg:#f3efe2; --pline:#b9ad86; }
+  @media (prefers-color-scheme: dark){ :root{ --pbg:#262a1f; --pline:#6d6640; } }
+  html{scroll-behavior:smooth}
+  @media (prefers-reduced-motion:reduce){ html{scroll-behavior:auto} }
+  .wrap{container-type:inline-size}
+  body.phone .wrap{max-width:390px;box-shadow:0 0 0 1px var(--line)}
+  .resortgrp,.card,section[role=tabpanel]{scroll-margin-top:var(--off,0px)}
+
+  /* control panel (not part of the design) */
+  .proto{position:sticky;top:0;z-index:60;background:var(--pbg);border-bottom:2px dashed var(--pline);font-size:.8rem;line-height:1.35}
+  .proto-in{max-width:1000px;margin:0 auto;padding:8px 16px}
+  .proto-top{display:flex;flex-wrap:wrap;gap:6px 16px;align-items:center}
+  .proto-tag{font-weight:700;letter-spacing:.05em;text-transform:uppercase;font-size:.7rem;border:1px solid var(--pline);padding:1px 6px;border-radius:4px}
+  .readout{flex:1 1 300px;font-variant-numeric:tabular-nums}
+  .readout small{color:var(--muted)}
+  .proto button{font:inherit;color:var(--text);background:var(--card);border:1px solid var(--pline);border-radius:5px;padding:2px 9px;cursor:pointer}
+  .proto button[aria-pressed="true"]{background:var(--accent);color:var(--card);border-color:var(--accent)}
+  .proto button:focus-visible,.sw input:focus-visible + .trk{outline:2px solid var(--accent);outline-offset:2px}
+  .seg{display:inline-flex;gap:0;align-items:center}
+  .seg button{border-radius:0}
+  .seg button:first-of-type{border-radius:5px 0 0 5px}
+  .seg button:last-of-type{border-radius:0 5px 5px 0;margin-left:-1px}
+  .proto-body{display:grid;grid-template-columns:1fr 1fr;gap:2px 28px;margin-top:8px}
+  .proto-body[hidden]{display:none}
+  .ctl{display:grid;grid-template-columns:132px 1fr auto;gap:8px;align-items:center;padding:3px 0;border-top:1px solid var(--pline)}
+  .sw{position:relative;display:inline-flex;align-items:center;gap:7px;cursor:pointer;font-weight:600}
+  .sw input{position:absolute;left:0;top:0;width:30px;height:100%;margin:0;opacity:0;cursor:pointer;z-index:1}
+  .trk{flex:0 0 30px;height:17px;border-radius:9px;background:var(--line);border:1px solid var(--pline);position:relative;transition:background .15s}
+  .trk::after{content:"";position:absolute;top:1px;left:1px;width:13px;height:13px;border-radius:50%;background:var(--card);box-shadow:0 0 0 1px var(--pline);transition:transform .15s}
+  .sw input:checked + .trk{background:var(--accent)}
+  .sw input:checked + .trk::after{transform:translateX(13px)}
+  .ds{color:var(--muted)}
+  .sv{font-variant-numeric:tabular-nums;font-weight:700;white-space:nowrap;text-align:right;min-width:68px}
+  @media (max-width:760px){
+    .proto{position:static}
+    .proto-body{grid-template-columns:1fr}
+    .ctl{grid-template-columns:1fr auto}
+    .ctl .ds{grid-column:1 / 3;grid-row:2;margin-top:-2px}
+  }
+
+  /* shared hidden-by-default new pieces */
+  .thumbs,.band,.cp,.jump,a.int,.more{display:none}
+  .resortinfo{display:block}
+
+  /* 1 thumbnails */
+  .headrow{display:block}
+  .titleblock{min-width:0}
+  body.t-thumbs .card > .photo{display:none}
+  body.t-thumbs .headrow{display:flex;justify-content:space-between;align-items:flex-start;gap:12px}
+  body.t-thumbs .thumbs{display:flex;gap:6px;flex:0 0 auto;order:2}
+  body.t-thumbs .card.mini{display:block}
+  .thumb{position:relative;width:104px;height:104px;padding:0;border:1px solid var(--line);border-radius:6px;overflow:hidden;
+         background:linear-gradient(135deg,#8fb4cc,#d8e6ef);cursor:pointer;flex:0 0 auto;color:#2b4a60;font-weight:600;font-size:.68rem;line-height:1.2}
+  div.thumb{cursor:default}
+  .thumb img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
+  .thumb .ph{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;text-align:center;padding:4px}
+  .thumb:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+  @container (max-width:527px){
+    body.t-thumbs .headrow{flex-direction:column;gap:8px}
+    body.t-thumbs .thumbs{width:100%}
+    .thumb{flex:1 1 0;width:auto;max-width:104px;height:auto;aspect-ratio:1}
+    .cprow{display:grid;grid-template-columns:repeat(3,auto);justify-content:space-between;font-size:.82rem}
+    .cprow .pi + .pi::before{display:none}
+    .cprow b{font-size:1rem}
+  }
+  @container (min-width:528px){
+    body.t-thumbs .card.mini .headrow{display:block}
+    body.t-thumbs .card.mini .thumbs{float:right;margin:0 0 8px 12px}
+  }
+  dialog#lb{border:1px solid var(--line);border-radius:12px;background:var(--card);color:var(--text);padding:0;max-width:min(94vw,900px);width:min(94vw,900px)}
+  dialog#lb::backdrop{background:rgba(0,0,0,.6)}
+  .lbbox{padding:12px;display:flex;flex-direction:column;gap:8px}
+  .lbimg{display:flex;align-items:center;justify-content:center;min-height:200px;background:linear-gradient(135deg,#8fb4cc,#d8e6ef);border-radius:8px;overflow:hidden}
+  .lbimg img{max-width:100%;max-height:70vh;object-fit:contain;display:block}
+  .lbbar{display:flex;gap:8px;align-items:center;font-size:.88rem}
+  .lbbar .cap{flex:1;color:var(--muted)}
+  .lbbar button{font:inherit;color:var(--text);background:var(--card);border:1px solid var(--line);border-radius:6px;padding:4px 12px;cursor:pointer}
+  .lbbar button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+  .lbbar button:disabled{opacity:.4;cursor:default}
+
+  /* 2 resort bands */
+  body.t-bands .oldhead,body.t-bands #snow-glance,body.t-bands .resortinfo,body.t-bands li.resortli{display:none}
+  body.t-bands .band{display:block;background:var(--soft);border-radius:10px;padding:10px 14px;margin:28px 0 10px}
+  .bandhead{display:flex;flex-wrap:wrap;align-items:baseline;gap:0 8px;margin-bottom:2px}
+  .band .bh{font-size:1.1rem;margin:0;line-height:1.3}
+  .bandair{color:var(--muted);font-size:.88rem}
+  .band p.bl{font-size:.88rem;margin:4px 0 0}
+
+  /* 3 compact prices */
+  body.t-prices .prices{display:none}
+  body.t-prices .cp{display:block;margin:6px 0 4px}
+  .cprow{display:flex;flex-wrap:wrap;gap:2px 0;font-size:.88rem;color:var(--muted)}
+  .cprow .pi{white-space:nowrap}
+  .cprow .pi + .pi::before{content:"\00b7";margin:0 7px}
+  .cprow b{color:var(--text);font-size:1.08rem}
+  .cpline{color:var(--muted);font-size:.76rem;margin-top:1px}
+  .cpline .warnt{color:var(--amber)}
+
+  /* 4 navigation */
+  body.t-nav .jump{display:flex;flex-wrap:wrap;gap:2px 4px;position:sticky;top:var(--panel-h,0px);z-index:20;background:var(--bg);
+         border-bottom:1px solid var(--line);padding:6px 0;margin:0 0 4px;font-size:.88rem}
+  .jump a{color:var(--accent);text-decoration:none;padding:3px 8px;border-radius:999px;font-weight:600}
+  .jump a:hover{background:var(--soft)}
+  .jump a:focus-visible,a.int:focus-visible,a.secl:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+  body.t-nav a.ext{display:none}
+  body.t-nav a.int{display:inline}
+  body.t-nav table.glance tr[data-card]{cursor:pointer}
+  body.t-nav table.glance tr[data-card]:hover td{background:var(--soft)}
+  a.secl{color:inherit;text-decoration:none}
+  body.t-nav a.secl{color:var(--accent);text-decoration:underline;text-decoration-color:var(--line)}
+
+  /* 5 bullet cap */
+  body.t-cap .more{display:inline-block;font:inherit;font-size:.82rem;color:var(--accent);background:none;border:1px solid var(--line);border-radius:999px;
+         padding:1px 10px;margin:-4px 0 8px;cursor:pointer}
+  body.t-cap .more[hidden]{display:none}
+  body.t-cap .more:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+  body.t-cap ul:not(.open) > li.extra{display:none}
+</style>
+</head>
+<body class="t-thumbs t-bands t-prices t-nav t-cap">
+<div class="proto" id="proto" role="region" aria-label="Prototype controls">
+  <div class="proto-in">
+    <div class="proto-top">
+      <span class="proto-tag">Prototype controls</span>
+      <span class="readout" id="readout" aria-live="polite">Page length: … px</span>
+      <span class="seg" role="group" aria-label="Width preview"><span style="margin-right:6px">Width</span><button type="button" data-w="desktop" aria-pressed="true">Desktop</button><button type="button" data-w="phone" aria-pressed="false">Phone</button></span>
+      <button type="button" id="ptoggle" aria-expanded="true" aria-controls="pbody">Hide controls</button>
+    </div>
+    <div class="proto-body" id="pbody">
+      <div class="ctl"><label class="sw"><input type="checkbox" data-t="thumbs" checked><span class="trk"></span>1 Thumbnails</label><span class="ds">Three small photos beside the name instead of one big 16:9 photo.</span><span class="sv" data-sv="thumbs"></span></div>
+      <div class="ctl"><label class="sw"><input type="checkbox" data-t="bands" checked><span class="trk"></span>2 Resort bands</label><span class="ds">One header band per resort; resort info moves out of the cards.</span><span class="sv" data-sv="bands"></span></div>
+      <div class="ctl"><label class="sw"><input type="checkbox" data-t="prices" checked><span class="trk"></span>3 Compact prices</label><span class="ds">One price line per option instead of boxed tiles.</span><span class="sv" data-sv="prices"></span></div>
+      <div class="ctl"><label class="sw"><input type="checkbox" data-t="nav" checked><span class="trk"></span>4 Navigation</label><span class="ds">Sticky jump bar; glance-table rows link to their cards.</span><span class="sv" data-sv="nav"></span></div>
+      <div class="ctl"><label class="sw"><input type="checkbox" data-t="cap" checked><span class="trk"></span>5 Bullet cap</label><span class="ds">Max 3 bullets per list; the rest behind a "More" button.</span><span class="sv" data-sv="cap"></span></div>
+    </div>
+  </div>
+</div>
+
+<div class="wrap">
+
+<h1>Easter 2027 ski shortlist</h1>
+<p class="sub">Flights + accommodation, <b>per family</b> (2 families: 4 adults, 4 kids). Last year: £2,900 for 5 nights at RockyPop (£4,100 with skis, passes and lessons).</p>
+
+<div class="tabs" role="tablist" aria-label="Options">
+  <button role="tab" id="tab-shortlist" aria-controls="shortlist" aria-selected="true">Shortlist</button>
+  <button role="tab" id="tab-next-best" aria-controls="next-best" aria-selected="false" tabindex="-1">Next best</button>
+</div>
+
+<nav class="jump" id="jump" aria-label="Jump to resort">
+  <a href="#r-flaine">Flaine</a><a href="#r-arcs">Les Arcs</a><a href="#r-obergurgl">Obergurgl</a><a href="#r-courchevel">Courchevel</a><a href="#next-best">Next best</a>
+</nav>
+
+<section id="shortlist" role="tabpanel" aria-labelledby="tab-shortlist">
+<h2>At a glance</h2>
+<div class="scroll">
+<table class="glance">
+  <thead><tr><th>Option</th><th class="n">Size</th><th class="n">5 nts</th><th class="n">6 nts</th><th class="n">7 nts</th></tr></thead>
+  <tbody>
+    <tr class="sec"><td colspan="5"><a class="secl" data-group="r-flaine">Flaine</a> <span>· 1½ hr from Geneva</span></td></tr>
+    <tr data-card="card-rockypop"><td>1 · <a href="https://www.flaine.com/en/fiche/rockypop-flaine-appartements-spa/" target="_blank" rel="noopener">RockyPop</a></td><td class="n">84 m²</td><td class="n">£2,200</td><td class="n">£2,700</td><td class="n">£3,000</td></tr>
+    <tr data-card="card-centaure"><td>2a · <a href="https://www.flaine.com/en/fiche/residence-le-centaure/" target="_blank" rel="noopener">Centaure</a>, 3BR + sofa bed</td><td class="n">72 m²</td><td class="n">£2,100</td><td class="n">–</td><td class="n">£2,400</td></tr>
+    <tr data-card="card-centaure"><td>2b · <a href="https://www.flaine.com/en/fiche/residence-le-centaure/" target="_blank" rel="noopener">Centaure</a>, 2 apartments</td><td class="n">90 m²</td><td class="n">£2,500</td><td class="n">–</td><td class="n">£2,800</td></tr>
+    <tr class="sec"><td colspan="5"><a class="secl" data-group="r-arcs">Les Arcs</a> <span>· 1 hr 50 from Chambéry</span></td></tr>
+    <tr data-card="card-arc1950"><td>3 · <a href="https://www.pierreetvacances.com/gb-en/fp_AWL_self-catering-arc-1950-village" target="_blank" rel="noopener">Arc 1950 Le Village</a>, 4BR duplex</td><td class="n">90 m²</td><td class="n">–</td><td class="n">–</td><td class="n">£2,900</td></tr>
+    <tr class="sec"><td colspan="5"><a class="secl" data-group="r-obergurgl">Obergurgl</a> <span>· 1½ hr from Innsbruck</span></td></tr>
+    <tr data-card="card-chalet"><td>4 · <a href="https://www.abitare-chalets.com/en/apartments-obergurgl-tyrol/the-chalet/" target="_blank" rel="noopener">The Chalet</a>, 3BR + mezzanine</td><td class="n">160 m²</td><td class="n">–</td><td class="n">–</td><td class="n">£3,100</td></tr>
+    <tr class="sec"><td colspan="5"><a class="secl" data-group="r-courchevel">Courchevel 1850</a> <span>· 1½ hr from Chambéry</span></td></tr>
+    <tr data-card="card-portes330b"><td>5 · <a href="https://cimalpes.com/en/rental-courchevel/appartement-portes-de-courchevel-330b/" target="_blank" rel="noopener">Portes de Courchevel 330B</a>, 3BR + bunk cabin</td><td class="n">77 m²</td><td class="n">–</td><td class="n">–</td><td class="n">£3,100</td></tr>
+    <tr data-card="card-follieres"><td>6 · <a href="https://cimalpes.com/fr/location-courchevel/appartement-follieres-2/" target="_blank" rel="noopener">Les Follières 2</a>, 4BR</td><td class="n">106 m²</td><td class="n">–</td><td class="n">–</td><td class="n">£3,600</td></tr>
+  </tbody>
+</table>
+</div>
+
+<div id="snow-glance">
+<h2>April snow and kids at a glance</h2>
+<p class="note">Likely conditions for 3–10 April, in order of snow confidence.</p>
+<div class="box">
+  <ul>
+    <li><b>Obergurgl: best chance of good snow.</b> High slopes and extensive snowmaking make it very reliable at Easter. Plenty of gentle blues, especially in Hochgurgl; lower runs can still soften on warm afternoons.</li>
+    <li><b>Arc 1950: excellent.</b> Wide, gentle blues around Arc 2000 suit the kids well. The high, sheltered, largely north-facing bowl preserves snow particularly well into April.</li>
+    <li><b>Flaine: very good.</b> Greens and gentle blues offer easy progression. The north-facing main bowl holds snow well, but lower runs can become slushy and links towards the lower villages are more vulnerable to warmth.</li>
+    <li><b>Courchevel 1850: good snow prospects, excellent easy terrain.</b> Broad greens and mellow blues are ideal for building confidence. Northerly slopes and excellent grooming help, but easy runs near resort can become heavy/slushy after lunch in warm weather.</li>
+  </ul>
+</div>
+</div>
+
+<!-- ============ FLAINE ============ -->
+<div class="resortgrp" id="r-flaine">
+<div class="oldhead">
+<h2>Flaine <span class="note">· about 1½ hr from Geneva</span></h2>
+<p class="note">Where we went last year. Car-free resort centre with the ski school and lifts close by.</p>
+</div>
+<div class="band"><div class="bandhead"><h2 class="bh">Flaine</h2><span class="bandair">· about 1½ hr from Geneva</span></div>
+  <p class="bl">Where we went last year. Car-free resort centre with the ski school and lifts close by.</p>
+  <p class="bl"><b>April: very good.</b> The north-facing main bowl holds snow well, but lower runs can become slushy and links towards the lower villages are more vulnerable to warmth.</p>
+  <p class="bl"><b>Kids:</b> greens and gentle blues offer easy progression.</p>
+</div>
+
+<div class="card" id="card-rockypop" data-photos="rockypop">
+  <div class="photo"><span>RockyPop Flaine</span>
+    <img src="https://static.apidae-tourisme.com/filestore/objets-touristiques/images/185/12/26873017-diaporama.jpg" alt="RockyPop Flaine, exterior" loading="lazy" referrerpolicy="no-referrer" onerror="this.remove()">
+  </div>
+  <div class="body">
+<div class="headrow"><div class="thumbs" role="group" aria-label="Photos"></div><div class="titleblock">
+    <h3>1 · RockyPop</h3>
+    <div class="chips"><span class="chip">Same as last year</span><span class="chip">4★</span><span class="chip">84 m²</span></div>
+</div></div>
+    <div class="prices">
+      <div class="price"><b>£2,200</b><span>5 nights</span><span class="via">Geneva · 1h25</span></div>
+      <div class="price"><b>£2,700</b><span>6 nights</span><span class="via">Geneva · 1h25</span><span class="alt">Or £2,600 via Lyon · <span class="warnt">2h20</span></span></div>
+      <div class="price"><b>£3,000</b><span>7 nights</span><span class="via">Geneva · 1h25</span><span class="alt">Or £2,800 via Lyon · <span class="warnt">2h20</span></span></div>
+    </div>
+    <ul>
+      <li>Spa with a 12 m indoor pool, sauna and hammam, plus a kids' area.</li>
+      <li>Three restaurants, a bar, a grocery shop and an on-site ski shop.</li>
+    </ul>
+    <a class="btn" href="https://www.flaine.com/en/fiche/rockypop-flaine-appartements-spa/" target="_blank" rel="noopener">Property page →</a>
+  </div>
+</div>
+
+<div class="card" id="card-centaure" data-photos="centaure">
+  <div class="photo"><span>Le Centaure, Flaine</span>
+    <img src="https://static.apidae-tourisme.com/filestore/objets-touristiques/images/181/45/35466677.webp" alt="Le Centaure, Flaine, exterior" loading="lazy" referrerpolicy="no-referrer" onerror="this.remove()">
+  </div>
+  <div class="body">
+<div class="headrow"><div class="thumbs" role="group" aria-label="Photos"></div><div class="titleblock">
+    <h3>2 · Le Centaure</h3>
+    <div class="chips"><span class="chip">On the slopes</span><span class="chip">Next to ski school</span><span class="chip">5★</span></div>
+</div></div>
+    <ul>
+      <li>At the foot of the Grandes Platières cable car, in the centre of Flaine.</li>
+      <li>Heated indoor pool, saunas, steam rooms, hot tubs, gym and a spa.</li>
+      <li>Private balcony in the apartments.</li>
+      <li>Good location, and a good price if booked before 31 October. But the sofa bed (2a) or two separate apartments (2b) may be annoying.</li>
+    </ul>
+    <div class="opt">
+      <div class="opthead">2a · 3BR + sofa bed <span class="optsub">· 72 m²</span></div>
+      <div class="prices">
+        <div class="price"><b>£2,100</b><span>5 nights</span><span class="via">Geneva · 1h25</span><span class="alt">Or £2,000 via Lyon · <span class="warnt">2h20</span></span></div>
+        <div class="price"><b>£2,400</b><span>7 nights</span><span class="via">Geneva · 1h25</span><span class="alt">Or £2,100 via Grenoble · 2h10</span></div>
+      </div>
+    </div>
+    <div class="opt">
+      <div class="opthead">2b · 2 separate apartments <span class="optsub">· 90 m² in total</span></div>
+      <div class="prices">
+        <div class="price"><b>£2,500</b><span>5 nights</span><span class="via">Geneva · 1h25</span><span class="alt">Or £2,400 via Lyon · <span class="warnt">2h20</span></span></div>
+        <div class="price"><b>£2,800</b><span>7 nights</span><span class="via">Geneva · 1h25</span><span class="alt">Or £2,500 via Grenoble · 2h10</span></div>
+      </div>
+    </div>
+    <a class="btn" href="https://www.flaine.com/en/fiche/residence-le-centaure/" target="_blank" rel="noopener">Property page →</a>
+  </div>
+</div>
+
+</div>
+
+<!-- ============ LES ARCS ============ -->
+<div class="resortgrp" id="r-arcs">
+<div class="oldhead">
+<h2>Les Arcs <span class="note">· about 1 hr 50 from Chambéry</span></h2>
+<p class="note">Part of Paradiski, a very large ski area.</p>
+</div>
+<div class="band"><div class="bandhead"><h2 class="bh">Les Arcs</h2><span class="bandair">· about 1 hr 50 from Chambéry</span></div>
+  <p class="bl">Part of Paradiski, a very large ski area, with 425 km of pistes.</p>
+  <p class="bl"><b>April: excellent.</b> The high, sheltered, largely north-facing bowl preserves snow particularly well into April, and about 70% of the pistes are above 2,000 m. The season ends 20 April 2027, so 3–10 April is fine.</p>
+  <p class="bl"><b>Kids:</b> ski school from age 3. Wide, gentle blues around Arc 2000 suit the kids well, and you can reach La Plagne on blues.</p>
+</div>
+
+<div class="card" id="card-arc1950" data-photos="arc1950">
+  <div class="photo"><span>Arc 1950 Le Village</span>
+    <img src="https://photos.pierreetvacances.com/admin/fp2/photos/panopv/1440x810/AAA_147010_panopv.jpg" alt="Arc 1950 Le Village, Pierre &amp; Vacances Premium" loading="lazy" referrerpolicy="no-referrer" onerror="this.remove()">
+  </div>
+  <div class="body">
+<div class="headrow"><div class="thumbs" role="group" aria-label="Photos"></div><div class="titleblock">
+    <h3>3 · Arc 1950 Le Village</h3>
+    <div class="chips"><span class="chip">Ski-in / ski-out</span><span class="chip">5★ P&amp;V Premium</span></div>
+</div></div>
+    <div class="opt">
+      <div class="opthead">4BR duplex, B buildings <span class="optsub">· about 90 m²</span></div>
+      <div class="prices">
+        <div class="price"><b>£2,900</b><span>7 nights</span><span class="via">Chambéry · 1h50</span><span class="alt">Or £2,800 via Grenoble · <span class="warnt">2h30</span></span></div>
+      </div>
+    </div>
+    <ul>
+      <li>Car-free village with shops, restaurants and a kids' club (ages 3–12, paid).</li>
+      <li>In the Prince des Cîmes building, about 50 m from the nearest lift.</li>
+      <li>A double and three twin rooms, so 8 real beds. The lounge sofa bed is spare.</li>
+      <li>Indoor pool, sauna, hammam and gym in the building.</li>
+      <li class="resortli">Paradiski has 425 km of pistes.</li>
+    </ul>
+<div class="resortinfo">
+    <p><b>Kids and April</b></p>
+    <ul>
+      <li>Ski school from age 3. Lots of blue runs, and you can reach La Plagne on blues.</li>
+      <li>About 70% of the pistes are above 2,000 m.</li>
+      <li>The season ends 20 April 2027, so 3–10 April is fine.</li>
+    </ul>
+</div>
+    <a class="btn" href="https://www.pierreetvacances.com/gb-en/fp_AWL_self-catering-arc-1950-village" target="_blank" rel="noopener">Property page →</a>
+  </div>
+</div>
+
+</div>
+
+<!-- ============ OBERGURGL ============ -->
+<div class="resortgrp" id="r-obergurgl">
+<div class="oldhead">
+<h2>Obergurgl, Austria <span class="note">· about 1½ hr from Innsbruck</span></h2>
+<p class="note">High up, snow-sure, and mostly easy runs. Suits families with younger kids.</p>
+</div>
+<div class="band"><div class="bandhead"><h2 class="bh">Obergurgl, Austria</h2><span class="bandair">· about 1½ hr from Innsbruck</span></div>
+  <p class="bl">High up, snow-sure, and mostly easy runs. Suits families with younger kids. 112 km of piste, 25 lifts.</p>
+  <p class="bl"><b>April: best chance of good snow.</b> The village is at 1,930 m and the lifts go to about 3,000 m. Snow usually holds into April, when lower resorts turn to slush. The season runs to at least 11 April, so 3–10 April is fine.</p>
+  <p class="bl"><b>Kids:</b> over half the runs are easy, and Hochgurgl is almost all blue. Two kids-only practice zones, away from the main pistes. Ski school from age 3, in groups of 5–6. Strong skiers may run out of runs.</p>
+</div>
+
+<div class="card" id="card-chalet" data-photos="chalet">
+  <div class="photo"><span>Abitare Chalets, Obergurgl</span>
+    <img src="https://www.abitare-chalets.com/fileadmin/abitare/Slider_Startseite/Abitare-Chalets-Obergurgl-1_3494.jpg" alt="Abitare Chalets, Obergurgl" loading="lazy" referrerpolicy="no-referrer" onerror="this.remove()">
+  </div>
+  <div class="body">
+<div class="headrow"><div class="thumbs" role="group" aria-label="Photos"></div><div class="titleblock">
+    <h3>4 · The Chalet <span class="optsub">· Abitare Chalets</span></h3>
+    <div class="chips"><span class="chip">Big · 160 m²</span><span class="chip">Private sauna</span><span class="chip">10 min walk to slopes</span></div>
+</div></div>
+    <div class="opt">
+      <div class="opthead">3BR + mezzanine <span class="optsub">· 160 m²</span></div>
+      <div class="prices">
+        <div class="price"><b>£3,100</b><span>7 nights</span><span class="via">Innsbruck · 1h30</span></div>
+      </div>
+    </div>
+    <ul>
+      <li>Three bedrooms, each with its own bathroom, plus a children's mezzanine. Sleeps 4–8.</li>
+      <li>Private sauna and infrared cabin. There is also a shared sauna, steam bath and rest room.</li>
+    </ul>
+    <p><a class="btn" href="https://www.abitare-chalets.com/en/apartments-obergurgl-tyrol/the-chalet/" target="_blank" rel="noopener">Property page →</a></p>
+<div class="resortinfo">
+    <p><b>Kids</b></p>
+    <ul>
+      <li>Over half the runs are easy. Hochgurgl is almost all blue.</li>
+      <li>Two kids-only practice zones, away from the main pistes.</li>
+      <li>Ski school from age 3, in groups of 5–6.</li>
+      <li>Strong skiers may run out of runs.</li>
+    </ul>
+    <p><b>April</b></p>
+    <ul>
+      <li>The village is at 1,930 m and the lifts go to about 3,000 m.</li>
+      <li>Snow usually holds into April, when lower resorts turn to slush.</li>
+      <li>The season runs to at least 11 April, so 3–10 April is fine.</li>
+      <li>112 km of piste, 25 lifts.</li>
+    </ul>
+</div>
+  </div>
+</div>
+
+</div>
+
+<!-- ============ COURCHEVEL 1850 ============ -->
+<div class="resortgrp" id="r-courchevel">
+<div class="oldhead">
+<h2>Courchevel 1850 <span class="note">· about 1½ hr from Chambéry</span></h2>
+<p class="note">The top village of Courchevel, in Les 3 Vallées. Snow-sure and central, but expensive, and some pistes get crowded in high season.</p>
+</div>
+<div class="band"><div class="bandhead"><h2 class="bh">Courchevel 1850</h2><span class="bandair">· about 1½ hr from Chambéry</span></div>
+  <p class="bl">The top village of Courchevel, in Les 3 Vallées (about 600 km of pistes). Snow-sure and central, but expensive, and some pistes get crowded in high season.</p>
+  <p class="bl"><b>April: good snow prospects.</b> 85% of Courchevel&#x27;s slopes are above 1,800 m, and the season runs to 18 April 2027, so 3–10 April is fine. Easy runs near resort can become heavy/slushy after lunch in warm weather.</p>
+  <p class="bl"><b>Kids:</b> excellent easy terrain, with broad greens and mellow blues. ESF&#x27;s Village des Enfants has beginner zones with covered magic carpets, and kids at 2nd star and above meet at the Croisette snow front. Group lessons run 9:30–11:45 and 14:15–16:45. A course starts on 3 April.</p>
+</div>
+
+<div class="card" id="card-portes330b" data-photos="portes330b">
+  <div class="photo"><span>Portes de Courchevel 330B</span>
+    <img src="https://cimalpes.com/cache/photos/2000/photos_bien_4041_salon.webp" alt="Portes de Courchevel 330B, living room" loading="lazy" referrerpolicy="no-referrer" onerror="this.remove()">
+  </div>
+  <div class="body">
+<div class="headrow"><div class="thumbs" role="group" aria-label="Photos"></div><div class="titleblock">
+    <h3>5 · Portes de Courchevel 330B</h3>
+    <div class="chips"><span class="chip">Next to the piste</span><span class="chip">Sauna in the flat</span></div>
+</div></div>
+    <div class="opt">
+      <div class="opthead">3BR + bunk cabin <span class="optsub">· 77 m²</span></div>
+      <div class="prices">
+        <div class="price"><b>£3,100</b><span>7 nights</span><span class="via">Chambéry · 1h30</span><span class="alt">Or £3,000 via Grenoble · <span class="warnt">2h30</span></span></div>
+      </div>
+    </div>
+    <ul>
+      <li>In the centre of 1850, 10 m from the Tovets piste and about 250 m from the main lifts and ski school.</li>
+      <li>Two doubles, a room that can be double or twin, and a children's bunk cabin. No sofa bed.</li>
+      <li>Two bathrooms plus a separate WC. One bathroom has a sauna.</li>
+      <li>The smallest flat on the shortlist.</li>
+    </ul>
+    <a class="btn" href="https://cimalpes.com/en/rental-courchevel/appartement-portes-de-courchevel-330b/" target="_blank" rel="noopener">Property page →</a>
+  </div>
+</div>
+
+<div class="card" id="card-follieres" data-photos="follieres">
+  <div class="photo"><span>Les Follières 2</span>
+    <img src="https://cimalpes.com/cache/photos/2000/photos_bien_256_03-folieres1-lounge.webp" alt="Les Follières 2, lounge" loading="lazy" referrerpolicy="no-referrer" onerror="this.remove()">
+  </div>
+  <div class="body">
+<div class="headrow"><div class="thumbs" role="group" aria-label="Photos"></div><div class="titleblock">
+    <h3>6 · Les Follières 2</h3>
+    <div class="chips"><span class="chip">Centre of 1850</span><span class="chip">106 m²</span></div>
+</div></div>
+    <div class="opt">
+      <div class="opthead">4BR <span class="optsub">· 106 m²</span></div>
+      <div class="prices">
+        <div class="price"><b>£3,600</b><span>7 nights</span><span class="via">Chambéry · 1h30</span><span class="alt">Or £3,500 via Grenoble · <span class="warnt">2h30</span></span></div>
+      </div>
+    </div>
+    <ul>
+      <li>On Rue des Tovets: 200 m to the Tovets piste, 260 m to the main lifts and ski school.</li>
+      <li>Three doubles and a children's bunk room, with three bathrooms. No sofa bed.</li>
+      <li>Balcony. The flat faces north and east.</li>
+      <li>The dearest option on the shortlist.</li>
+    </ul>
+    <a class="btn" href="https://cimalpes.com/fr/location-courchevel/appartement-follieres-2/" target="_blank" rel="noopener">Property page →</a>
+  </div>
+</div>
+
+<div class="resortinfo"><div class="box">
+  <p><b>Kids</b></p>
+  <ul>
+    <li>ESF's Village des Enfants has beginner zones with covered magic carpets.</li>
+    <li>Kids at 2nd star and above meet at the Croisette snow front, in the centre of 1850.</li>
+    <li>Group lessons run 9:30–11:45 and 14:15–16:45. A course starts on 3 April.</li>
+  </ul>
+  <p><b>April</b></p>
+  <ul>
+    <li>85% of Courchevel's slopes are above 1,800 m.</li>
+    <li>The season runs to 18 April 2027, so 3–10 April is fine.</li>
+    <li>Les 3 Vallées has about 600 km of pistes.</li>
+  </ul>
+</div></div>
+</div>
+
+</section>
+
+<!-- ============ NEXT BEST ============ -->
+<section id="next-best" role="tabpanel" aria-labelledby="tab-next-best">
+<h2>Next best</h2>
+<p>Viable, but not on our shortlist. Each has a good reason to consider it and a reason it didn't make the cut. Prices compare with RockyPop at £3,000 for 7 nights (£2,200 for 5).</p>
+
+<div class="resortgrp" id="r-nb-obergurgl">
+<div class="oldhead">
+<h3 class="resort">Obergurgl <span class="note">· about 1½ hr from Innsbruck</span></h3>
+<p class="note">Pretty, traditional village, wide open and not too busy, with snow-sure beginner slopes and a short transfer, but flights are expensive.</p>
+</div>
+<div class="band"><div class="bandhead"><h3 class="bh">Obergurgl</h3><span class="bandair">· about 1½ hr from Innsbruck</span></div>
+  <p class="bl">Pretty, traditional village, wide open and not too busy, with snow-sure beginner slopes and a short transfer, but flights are expensive.</p>
+</div>
+
+<div class="card mini" id="card-alpenresidenz" data-photos="alpenresidenz">
+  <div class="photo"><span>Alpenresidenz Gurgl</span>
+    <img src="https://www.alpenresidenz-gurgl.at/fileadmin/userdaten/bilder/zimmer-und-apartments/apartments/apartments-4-8-personen/alpenresidenz-gurgl-apartments-typ-d4-09.jpg" alt="Alpenresidenz Gurgl" loading="lazy" referrerpolicy="no-referrer" onerror="this.remove()">
+  </div>
+  <div class="body">
+<div class="headrow"><div class="thumbs" role="group" aria-label="Photos"></div><div class="titleblock">
+    <h4>Alpenresidenz Gurgl <span class="optsub">· Apartment D-4</span></h4>
+    <div class="chips"><span class="chip">5 min walk to lifts</span></div>
+</div></div>
+    <div class="prices"><div class="price"><b>£3,100</b><span>7 nights</span><span class="via">Innsbruck · 1h30</span></div></div>
+    <ul class="pc">
+      <li class="pro"><span class="mk" aria-hidden="true">+</span><span class="sr">Pro: </span>One flat for all 8, two bathrooms.</li>
+      <li class="pro"><span class="mk" aria-hidden="true">+</span><span class="sr">Pro: </span>Access to sauna and steam room.</li>
+      <li class="con"><span class="mk" aria-hidden="true">–</span><span class="sr">Con: </span>Only 2 bedrooms, so kids sleep on pull-outs in their parents&#x27; room.</li>
+    </ul>
+    <a class="btn" href="https://www.alpenresidenz-gurgl.at/en/rooms-apartments/apartments/apartments-4-8-people/" target="_blank" rel="noopener">alpenresidenz-gurgl.at →</a>
+  </div>
+</div>
+
+<div class="card mini" id="card-abitare" data-photos="abitare">
+  <div class="photo"><span>Abitare Chalets</span>
+    <img src="https://www.abitare-chalets.com/fileadmin/abitare/Aussenansichten/Abitare-Chalets-Obergurgl_Aussenbereich.jpg" alt="Abitare Chalets" loading="lazy" referrerpolicy="no-referrer" onerror="this.remove()">
+  </div>
+  <div class="body">
+<div class="headrow"><div class="thumbs" role="group" aria-label="Photos"></div><div class="titleblock">
+    <h4>Abitare Chalets <span class="optsub">· Everest apartment</span></h4>
+    <div class="chips"><span class="chip">10 min walk to lifts</span></div>
+</div></div>
+    <div class="prices"><div class="price"><b>£3,400</b><span>7 nights</span><span class="via">Innsbruck · 1h30</span></div></div>
+    <ul class="pc">
+      <li class="pro"><span class="mk" aria-hidden="true">+</span><span class="sr">Pro: </span>Big: 140 m², four bedrooms, four bathrooms.</li>
+      <li class="pro"><span class="mk" aria-hidden="true">+</span><span class="sr">Pro: </span>Access to sauna and steam bath.</li>
+      <li class="pro"><span class="mk" aria-hidden="true">+</span><span class="sr">Pro: </span>9.5/10 on Booking (34 reviews).</li>
+      <li class="con"><span class="mk" aria-hidden="true">–</span><span class="sr">Con: </span>10 min uphill to lifts and ski school, or a shuttle.</li>
+      <li class="con"><span class="mk" aria-hidden="true">–</span><span class="sr">Con: </span>£400 more than RockyPop.</li>
+    </ul>
+    <a class="btn" href="https://www.abitare-chalets.com/en/apartments-obergurgl-tyrol/everest/" target="_blank" rel="noopener">abitare-chalets.com →</a>
+  </div>
+</div>
+
+<div class="card mini" id="card-hochegg" data-photos="hochegg">
+  <div class="photo"><span>Das Hochegg</span>
+    <img src="https://cf.bstatic.com/xdata/images/hotel/max1024x768/774945652.jpg?k=b83a3b34509ccf79f0caf490501fa96ce7fe5fdbaa22da4901dc0f2087356158&amp;o=" data-alt="https://lh3.googleusercontent.com/gps-cs-s/ANWiy9QuR-WlLxuP5jyfJ2iaCU6oL7NETrYzDumDDyeUpoL1XeuUX-lQy-AGfGKFHGkbdYU3UtFjQcfmG6rRAgSPB8Bm54fgeK9YemjmDokUaU_JKZmWdki2tjLrxTaXofZ5ctjXlzNn=s1360-w1360-h1020" alt="Das Hochegg" loading="lazy" referrerpolicy="no-referrer" onerror="if(this.dataset.alt){this.src=this.dataset.alt;this.removeAttribute('data-alt')}else{this.remove()}">
+  </div>
+  <div class="body">
+<div class="headrow"><div class="thumbs" role="group" aria-label="Photos"></div><div class="titleblock">
+    <h4>Das Hochegg <span class="optsub">· 2 × 1BR</span></h4>
+    <div class="chips"><span class="chip">On the ski run</span></div>
+</div></div>
+    <div class="prices"><div class="price"><b>£3,400</b><span>7 nights</span><span class="via">Innsbruck · 1h30</span></div></div>
+    <ul class="pc">
+      <li class="pro"><span class="mk" aria-hidden="true">+</span><span class="sr">Pro: </span>On the edge of the ski run, close to ski school.</li>
+      <li class="pro"><span class="mk" aria-hidden="true">+</span><span class="sr">Pro: </span>Access to sauna and infrared cabin.</li>
+      <li class="pro"><span class="mk" aria-hidden="true">+</span><span class="sr">Pro: </span>10/10 on Booking.com.</li>
+      <li class="con"><span class="mk" aria-hidden="true">–</span><span class="sr">Con: </span>Two separate, small flats (about 50 m² each).</li>
+      <li class="con"><span class="mk" aria-hidden="true">–</span><span class="sr">Con: </span>Kids on a living-room sofa bed in each flat.</li>
+      <li class="con"><span class="mk" aria-hidden="true">–</span><span class="sr">Con: </span>£400 more than RockyPop.</li>
+    </ul>
+    <a class="btn" href="https://www.hochegg.at/en/" target="_blank" rel="noopener">hochegg.at →</a>
+  </div>
+</div>
+
+<div class="card mini" id="card-haus" data-photos="haus">
+  <div class="photo"><span>Haus Elisabeth</span>
+    <img src="https://www.oetztal.com/cache-buster-0/unterkuenfte/obergurgl-/haus-elisabeth/120634/image-thumb__120634__nuiLightboxImage/hausansicht-sommer-db694cfd.eb47eb15.jpg" alt="Haus Elisabeth" loading="lazy" referrerpolicy="no-referrer" onerror="this.remove()">
+  </div>
+  <div class="body">
+<div class="headrow"><div class="thumbs" role="group" aria-label="Photos"></div><div class="titleblock">
+    <h4>Haus Elisabeth <span class="optsub">· 2 apartments</span></h4>
+    <div class="chips"><span class="chip">5 min walk to centre</span></div>
+</div></div>
+    <div class="prices"><div class="price"><b>£3,600</b><span>7 nights</span><span class="via">Innsbruck · 1h30</span></div></div>
+    <ul class="pc">
+      <li class="pro"><span class="mk" aria-hidden="true">+</span><span class="sr">Pro: </span>5.0/5 from 25 reviews.</li>
+      <li class="pro"><span class="mk" aria-hidden="true">+</span><span class="sr">Pro: </span>Access to sauna.</li>
+      <li class="con"><span class="mk" aria-hidden="true">–</span><span class="sr">Con: </span>Separate apartments, one bigger than the other, and kids on a sofa bed in one.</li>
+      <li class="con"><span class="mk" aria-hidden="true">–</span><span class="sr">Con: </span>£600 more than RockyPop.</li>
+    </ul>
+    <a class="btn" href="https://www.oetztal.com/en/search-book/accommodations/-/haus-elisabeth.a-06460dc6-dc9d-4589-8d73-75e0fa6a0d4f" target="_blank" rel="noopener">oetztal.com →</a>
+  </div>
+</div>
+
+</div>
+
+<div class="resortgrp" id="r-nb-cervinia">
+<div class="oldhead">
+<h3 class="resort">Cervinia, Italy <span class="note">· about 1 hr 45 from Turin</span></h3>
+<p class="note">Stunning Matterhorn views. High, with most pistes above 2,000 m. Good in April and plenty of easy runs. Italian food.</p>
+</div>
+<div class="band"><div class="bandhead"><h3 class="bh">Cervinia, Italy</h3><span class="bandair">· about 1 hr 45 from Turin</span></div>
+  <p class="bl">Stunning Matterhorn views. High, with most pistes above 2,000 m. Good in April and plenty of easy runs. Italian food.</p>
+</div>
+
+<div class="card mini" id="card-clochards" data-photos="clochards">
+  <div class="photo"><span>Les Clochards</span>
+  </div>
+  <div class="body">
+<div class="headrow"><div class="thumbs" role="group" aria-label="Photos"></div><div class="titleblock">
+    <h4>Les Clochards <span class="optsub">· 3BR + sofa bed</span></h4>
+    <div class="chips"><span class="chip">On the piste</span></div>
+</div></div>
+    <div class="prices"><div class="price"><b>£3,600</b><span>7 nights</span><span class="via">Turin · 1h45</span><span class="alt">Or £2,800 via Milan · 2h05</span></div></div>
+    <ul class="pc">
+      <li class="pro"><span class="mk" aria-hidden="true">+</span><span class="sr">Pro: </span>On a blue piste close to the lifts.</li>
+      <li class="con"><span class="mk" aria-hidden="true">–</span><span class="sr">Con: </span>10 min walk into the village for dinner and ski school.</li>
+      <li class="con"><span class="mk" aria-hidden="true">–</span><span class="sr">Con: </span>Still being converted. Size and layout not published.</li>
+      <li class="con"><span class="mk" aria-hidden="true">–</span><span class="sr">Con: </span>£600 more than RockyPop, or £200 less flying to Milan.</li>
+    </ul>
+    <a class="btn" href="https://lesclochards.com" target="_blank" rel="noopener">lesclochards.com →</a>
+  </div>
+</div>
+
+</div>
+
+<div class="resortgrp" id="r-nb-moriond">
+<div class="oldhead">
+<h3 class="resort">Courchevel Moriond (1650) <span class="note">· about 1½ hr from Chambéry, 2½ hr from Geneva</span></h3>
+<p class="note">Courchevel&#x27;s family village, with quieter slopes than 1850, but less good in April: the nursery slopes are lower and sunny.</p>
+</div>
+<div class="band"><div class="bandhead"><h3 class="bh">Courchevel Moriond (1650)</h3><span class="bandair">· about 1½ hr from Chambéry, 2½ hr from Geneva</span></div>
+  <p class="bl">Courchevel&#x27;s family village, with quieter slopes than 1850, but less good in April: the nursery slopes are lower and sunny.</p>
+</div>
+
+<div class="card mini" id="card-aspen" data-photos="aspen">
+  <div class="photo"><span>Aspen Lodge A31</span>
+    <img src="https://cimalpes.com/cache/photos/2000/photos_bien_210_appartement_aspen_lodge_a31_01.webp" alt="Aspen Lodge A31" loading="lazy" referrerpolicy="no-referrer" onerror="this.remove()">
+  </div>
+  <div class="body">
+<div class="headrow"><div class="thumbs" role="group" aria-label="Photos"></div><div class="titleblock">
+    <h4>Aspen Lodge A31 <span class="optsub">· 4BR duplex</span></h4>
+    <div class="chips"><span class="chip">150 m to lifts</span></div>
+</div></div>
+    <div class="prices"><div class="price"><b>£3,100</b><span>7 nights</span><span class="via">Chambéry · 1h30</span><span class="alt">Or £3,000 via Grenoble · <span class="warnt">2h30</span></span></div></div>
+    <ul class="pc">
+      <li class="pro"><span class="mk" aria-hidden="true">+</span><span class="sr">Pro: </span>Close to lifts and ski school, in the village centre.</li>
+      <li class="pro"><span class="mk" aria-hidden="true">+</span><span class="sr">Pro: </span>112 m², three doubles plus bunk room, three bathrooms. No sofa bed.</li>
+    </ul>
+    <a class="btn" href="https://cimalpes.com/en/rental-courchevel/appartement-aspen-lodge-a31/" target="_blank" rel="noopener">cimalpes.com →</a>
+  </div>
+</div>
+
+</div>
+
+<div class="resortgrp" id="r-nb-avoriaz">
+<div class="oldhead">
+<h3 class="resort">Avoriaz <span class="note">· about 1 hr 35 from Geneva</span></h3>
+<p class="note">Car-free resort with some of the cheapest options, but beginner slopes are more likely to be slushy in April than in Flaine.</p>
+</div>
+<div class="band"><div class="bandhead"><h3 class="bh">Avoriaz</h3><span class="bandair">· about 1 hr 35 from Geneva</span></div>
+  <p class="bl">Car-free resort with some of the cheapest options, but beginner slopes are more likely to be slushy in April than in Flaine.</p>
+</div>
+
+<div class="card mini" id="card-amara-a" data-photos="amara">
+  <div class="photo"><span>L&#x27;Amara (P&amp;V Premium)</span>
+    <img src="https://photos.pierreetvacances.com/admin/fp2/photos/panopv/1440x810/AAA_85382_panopv.jpg" alt="L&#x27;Amara (P&amp;V Premium)" loading="lazy" referrerpolicy="no-referrer" onerror="this.remove()">
+  </div>
+  <div class="body">
+<div class="headrow"><div class="thumbs" role="group" aria-label="Photos"></div><div class="titleblock">
+    <h4>L&#x27;Amara (P&amp;V Premium) <span class="optsub">· 3BR, mountain view</span></h4>
+    <div class="chips"><span class="chip">Ski to the door</span></div>
+</div></div>
+    <div class="prices"><div class="price"><b>£2,100</b><span>5 nights</span><span class="via">Geneva · 1h35</span><span class="alt">Or £2,000 via Lyon · <span class="warnt">2h35</span></span></div><div class="price"><b>£2,800</b><span>7 nights</span><span class="via">Geneva · 1h35</span><span class="alt">Or £2,600 via Lyon · <span class="warnt">2h35</span></span></div></div>
+    <ul class="pc">
+      <li class="pro"><span class="mk" aria-hidden="true">+</span><span class="sr">Pro: </span>£100 less than RockyPop for 5 nights, £200 less for 7.</li>
+      <li class="pro"><span class="mk" aria-hidden="true">+</span><span class="sr">Pro: </span>Access to indoor pool and saunas. 8.9/10 from 306 reviews.</li>
+      <li class="con"><span class="mk" aria-hidden="true">–</span><span class="sr">Con: </span>Two people sleep on the living-room sofa bed.</li>
+      <li class="con"><span class="mk" aria-hidden="true">–</span><span class="sr">Con: </span>Uphill walk to the centre and ski school (for the first day or two, until the kids can ski easy blues).</li>
+    </ul>
+    <a class="btn" href="https://www.pierreetvacances.com/gb-en/fp_AVP_self-catering-premium-residence-l-amara" target="_blank" rel="noopener">pierreetvacances.com →</a>
+  </div>
+</div>
+
+<div class="card mini" id="card-amara-b" data-photos="amara">
+  <div class="photo"><span>L&#x27;Amara (P&amp;V Premium)</span>
+    <img src="https://photos.pierreetvacances.com/admin/fp2/photos/panopv/1440x810/AAA_85382_panopv.jpg" alt="L&#x27;Amara (P&amp;V Premium)" loading="lazy" referrerpolicy="no-referrer" onerror="this.remove()">
+  </div>
+  <div class="body">
+<div class="headrow"><div class="thumbs" role="group" aria-label="Photos"></div><div class="titleblock">
+    <h4>L&#x27;Amara (P&amp;V Premium) <span class="optsub">· 2 separate 2BR apartments</span></h4>
+    <div class="chips"><span class="chip">Ski to the door</span></div>
+</div></div>
+    <div class="prices"><div class="price"><b>£2,400</b><span>5 nights</span><span class="via">Geneva · 1h35</span><span class="alt">Or £2,200 via Lyon · <span class="warnt">2h35</span></span></div><div class="price"><b>£3,100</b><span>7 nights</span><span class="via">Geneva · 1h35</span><span class="alt">Or £2,900 via Lyon · <span class="warnt">2h35</span></span></div></div>
+    <ul class="pc">
+      <li class="pro"><span class="mk" aria-hidden="true">+</span><span class="sr">Pro: </span>More space, 126 m². A double plus two singles in each, so no sofa bed.</li>
+      <li class="pro"><span class="mk" aria-hidden="true">+</span><span class="sr">Pro: </span>Access to indoor pool and saunas. 8.9/10 from 306 reviews.</li>
+      <li class="con"><span class="mk" aria-hidden="true">–</span><span class="sr">Con: </span>Separate apartments.</li>
+      <li class="con"><span class="mk" aria-hidden="true">–</span><span class="sr">Con: </span>Uphill walk to the centre and ski school (for the first day or two, until the kids can ski easy blues).</li>
+    </ul>
+    <a class="btn" href="https://www.pierreetvacances.com/gb-en/fp_AVP_self-catering-premium-residence-l-amara" target="_blank" rel="noopener">pierreetvacances.com →</a>
+  </div>
+</div>
+
+<div class="card mini" id="card-elinka" data-photos="elinka">
+  <div class="photo"><span>Résidence Elinka</span>
+    <img src="https://www.avoriaz-holidays.com/_img/locations/0002800163_01.jpg" alt="Résidence Elinka" loading="lazy" referrerpolicy="no-referrer" onerror="this.remove()">
+  </div>
+  <div class="body">
+<div class="headrow"><div class="thumbs" role="group" aria-label="Photos"></div><div class="titleblock">
+    <h4>Résidence Elinka <span class="optsub">· 4BR duplex</span></h4>
+    <div class="chips"><span class="chip">Foot of the slopes</span></div>
+</div></div>
+    <div class="prices"><div class="price"><b>£3,300</b><span>7 nights</span><span class="via">Geneva · 1h35</span></div></div>
+    <ul class="pc">
+      <li class="pro"><span class="mk" aria-hidden="true">+</span><span class="sr">Pro: </span>Four bedrooms, three bathrooms, 97 m².</li>
+      <li class="pro"><span class="mk" aria-hidden="true">+</span><span class="sr">Pro: </span>By the resort entrance; centre about 5 min walk.</li>
+      <li class="con"><span class="mk" aria-hidden="true">–</span><span class="sr">Con: </span>£300 more than RockyPop.</li>
+      <li class="con"><span class="mk" aria-hidden="true">–</span><span class="sr">Con: </span>All doubles, so kids share beds.</li>
+    </ul>
+    <a class="btn" href="https://www.avoriaz-holidays.com/en/our-rentals/el0607pg/5-rooms-4-bedrooms-8-people-avoriaz.html" target="_blank" rel="noopener">avoriaz-holidays.com →</a>
+  </div>
+</div>
+</div>
+</section>
+
+<footer>
+  <p>Prices are rough and will move with dates. Each is the cheapest 5-, 6- or 7-night stay found between 3 and 11 April, flying to the closest airport (or one under 15 minutes further, if cheaper). The airport and transfer time are under each price. If a further airport within 3 hours is cheaper, it's shown underneath as an alternative. Amber means a transfer over 2¼ hours.</p>
+  <p>Transfer times are approximate dry-road times from our planning table (J2Ski and Alps2Alps). Resort headings give a typical airport; each price shows the airport its flights use. Photos belong to their owners and link to official sources.</p>
+  <p>Prepared 28 October 2026. Updated 29 October 2026 with new flight prices and Courchevel 1850. Updated 30 October 2026 with the April snow summary and a 6-night RockyPop price (4–10 April, room only).</p>
+</footer>
+
+</div>
+
+
+<dialog id="lb" aria-label="Photo viewer">
+  <div class="lbbox">
+    <div class="lbimg"><img id="lbimg" alt="" referrerpolicy="no-referrer"></div>
+    <div class="lbbar"><button type="button" id="lbprev" aria-label="Previous photo">&larr;</button><button type="button" id="lbnext" aria-label="Next photo">&rarr;</button><span class="cap" id="lbcap" aria-live="polite"></span><button type="button" id="lbclose">Close</button></div>
+  </div>
+</dialog>
+<script>
+/* Photos per place. Replace with real URLs: each entry is {src, alt}.
+   For now each place repeats its single existing image 3 times.
+   Optional `fallback` is tried if `src` fails. An empty list shows a placeholder only. */
+const PHOTOS = {
+  rockypop:[
+    {"src": "https://static.apidae-tourisme.com/filestore/objets-touristiques/images/185/12/26873017-diaporama.jpg", "alt": "RockyPop, exterior"},
+    {"src": "https://static.apidae-tourisme.com/filestore/objets-touristiques/images/13/104/26241037-diaporama.jpg", "alt": "RockyPop, penthouse lounge"},
+    {"src": "https://static.apidae-tourisme.com/filestore/objets-touristiques/images/68/104/26241092-diaporama.jpg", "alt": "RockyPop, indoor pool and spa"}],
+  centaure:[
+    {"src": "https://static.apidae-tourisme.com/filestore/objets-touristiques/images/181/45/35466677.webp", "alt": "Le Centaure, exterior"},
+    {"src": "https://static.apidae-tourisme.com/filestore/objets-touristiques/images/189/45/35466685.webp", "alt": "Le Centaure, living room with open kitchen"},
+    {"src": "https://static.apidae-tourisme.com/filestore/objets-touristiques/images/153/45/35466649-diaporama.jpg", "alt": "Le Centaure, swimming pool"}],
+  arc1950:[
+    {"src": "https://photos.pierreetvacances.com/admin/fp2/photos/panopv/1440x810/AAA_147010_panopv.jpg", "alt": "Arc 1950 Le Village"}],
+  chalet:[
+    {"src": "https://www.abitare-chalets.com/fileadmin/abitare/Slider_Startseite/Abitare-Chalets-Obergurgl-1_3494.jpg", "alt": "Abitare Chalets, Obergurgl"},
+    {"src": "https://www.abitare-chalets.com/fileadmin/_processed_/e/c/csm_abitare_216-chalet_d1fd61004f.jpg", "alt": "The Chalet, interior"},
+    {"src": "https://www.abitare-chalets.com/fileadmin/_processed_/0/3/csm_abitare_229-chalet_44d81f18a9.jpg", "alt": "The Chalet, interior"}],
+  portes330b:[
+    {"src": "https://cimalpes.com/cache/photos/2000/photos_bien_4041_salon.webp", "alt": "Portes de Courchevel 330B, lounge"},
+    {"src": "https://cimalpes.com/cache/photos/2000/photos_bien_4041_sayjour.webp", "alt": "Portes de Courchevel 330B, living area"},
+    {"src": "https://cimalpes.com/cache/photos/2000/photos_bien_4041_chambre_1.webp", "alt": "Portes de Courchevel 330B, bedroom"}],
+  follieres:[
+    {"src": "https://cimalpes.com/cache/photos/2000/photos_bien_256_03-folieres1-lounge.webp", "alt": "Les Follières 2, lounge"},
+    {"src": "https://cimalpes.com/cache/photos/2000/photos_bien_256_05-folieres1-bedroom1_1.webp", "alt": "Les Follières 2, bedroom"},
+    {"src": "https://cimalpes.com/cache/photos/2000/photos_bien_256_02-folieres1-dining_2.webp", "alt": "Les Follières 2, dining area"}],
+
+  /* Next-best cards: the existing image as one thumbnail */
+  alpenresidenz:[{src:"https://www.alpenresidenz-gurgl.at/fileadmin/userdaten/bilder/zimmer-und-apartments/apartments/apartments-4-8-personen/alpenresidenz-gurgl-apartments-typ-d4-09.jpg",alt:"Alpenresidenz Gurgl"}],
+  abitare:[{src:"https://www.abitare-chalets.com/fileadmin/abitare/Aussenansichten/Abitare-Chalets-Obergurgl_Aussenbereich.jpg",alt:"Abitare Chalets"}],
+  hochegg:[{src:"https://cf.bstatic.com/xdata/images/hotel/max1024x768/774945652.jpg?k=b83a3b34509ccf79f0caf490501fa96ce7fe5fdbaa22da4901dc0f2087356158&o=",
+            fallback:"https://lh3.googleusercontent.com/gps-cs-s/ANWiy9QuR-WlLxuP5jyfJ2iaCU6oL7NETrYzDumDDyeUpoL1XeuUX-lQy-AGfGKFHGkbdYU3UtFjQcfmG6rRAgSPB8Bm54fgeK9YemjmDokUaU_JKZmWdki2tjLrxTaXofZ5ctjXlzNn=s1360-w1360-h1020",alt:"Das Hochegg"}],
+  haus:[{src:"https://www.oetztal.com/cache-buster-0/unterkuenfte/obergurgl-/haus-elisabeth/120634/image-thumb__120634__nuiLightboxImage/hausansicht-sommer-db694cfd.eb47eb15.jpg",alt:"Haus Elisabeth"}],
+  clochards:[],
+  aspen:[{src:"https://cimalpes.com/cache/photos/2000/photos_bien_210_appartement_aspen_lodge_a31_01.webp",alt:"Aspen Lodge A31"}],
+  amara:[{src:"https://photos.pierreetvacances.com/admin/fp2/photos/panopv/1440x810/AAA_85382_panopv.jpg",alt:"L'Amara (P&V Premium)"}],
+  elinka:[{src:"https://www.avoriaz-holidays.com/_img/locations/0002800163_01.jpg",alt:"Résidence Elinka"}]
+};
+
+(function(){
+  var doc=document, body=doc.body, $=function(id){return doc.getElementById(id)};
+  doc.documentElement.classList.add('js');
+  var SW=['thumbs','bands','prices','nav','cap'];
+  var proto=$('proto'), jump=$('jump');
+
+  /* ---------- tabs (same behaviour as live page) ---------- */
+  var tabs=[].slice.call(doc.querySelectorAll('[role=tab]'));
+  function show(id,focus){
+    tabs.forEach(function(t){
+      var on=t.getAttribute('aria-controls')===id;
+      t.setAttribute('aria-selected',on);t.tabIndex=on?0:-1;
+      doc.getElementById(t.getAttribute('aria-controls')).hidden=!on;
+      if(on&&focus)t.focus();
+    });
+    if(window.recompute)recompute();
+  }
+  tabs.forEach(function(t,i){
+    t.addEventListener('click',function(){var id=t.getAttribute('aria-controls');show(id);history.replaceState(null,'','#'+id);});
+    t.addEventListener('keydown',function(e){
+      var d=e.key==='ArrowRight'?1:e.key==='ArrowLeft'?-1:0; if(!d)return;
+      var n=tabs[(i+d+tabs.length)%tabs.length]; n.click(); n.focus();
+    });
+  });
+
+  /* ---------- 1 thumbnails + lightbox ---------- */
+  var lb=$('lb'), lbimg=$('lbimg'), lbcap=$('lbcap'), lbprev=$('lbprev'), lbnext=$('lbnext');
+  var cur={list:[],i:0,tried:false};
+  function loadImg(im,p,alt){
+    im.setAttribute('referrerpolicy','no-referrer'); im.setAttribute('loading','lazy'); im.alt=alt||'';
+    var triedFb=false;
+    im.onerror=function(){ if(p.fallback&&!triedFb){triedFb=true;im.src=p.fallback;} else {im.onerror=null;im.remove();} };
+    im.src=p.src;
+  }
+  doc.querySelectorAll('.card[data-photos]').forEach(function(card){
+    var box=card.querySelector('.thumbs'); if(!box)return;
+    var list=PHOTOS[card.dataset.photos]||[];
+    var phn=card.querySelector('.photo span'); var name=phn?phn.textContent:'';
+    if(!list.length){
+      var d=doc.createElement('div'); d.className='thumb'; d.innerHTML='<span class="ph"></span>'; d.firstChild.textContent=name; box.appendChild(d); return;
+    }
+    list.forEach(function(p,i){
+      var b=doc.createElement('button'); b.type='button'; b.className='thumb'; b.setAttribute('aria-haspopup','dialog');
+      b.setAttribute('aria-label','Photo '+(i+1)+' of '+list.length+': '+p.alt);
+      var ph=doc.createElement('span'); ph.className='ph'; ph.setAttribute('aria-hidden','true'); ph.textContent=name; b.appendChild(ph);
+      var im=doc.createElement('img'); loadImg(im,p,p.alt); b.appendChild(im);
+      b.addEventListener('click',function(){ openLb(list,i); });
+      box.appendChild(b);
+    });
+  });
+  function paintLb(){
+    var p=cur.list[cur.i];
+    lbimg.onerror=function(){ if(p.fallback&&!cur.tried){cur.tried=true;lbimg.src=p.fallback;} else {lbcap.textContent+=' (image unavailable)'; } };
+    cur.tried=false; lbimg.alt=p.alt; lbimg.src=p.src;
+    lbcap.textContent=(cur.i+1)+' / '+cur.list.length+' · '+p.alt;
+    lbprev.disabled=lbnext.disabled=cur.list.length<2;
+  }
+  function openLb(list,i){ cur.list=list; cur.i=i; paintLb(); if(!lb.open)lb.showModal(); }
+  function step(d){ if(cur.list.length<2)return; cur.i=(cur.i+d+cur.list.length)%cur.list.length; paintLb(); }
+  lbprev.addEventListener('click',function(){step(-1)}); lbnext.addEventListener('click',function(){step(1)});
+  $('lbclose').addEventListener('click',function(){lb.close()});
+  lb.addEventListener('click',function(e){ if(e.target===lb)lb.close(); });
+  lb.addEventListener('keydown',function(e){ if(e.key==='ArrowLeft'){step(-1);e.preventDefault();} else if(e.key==='ArrowRight'){step(1);e.preventDefault();} });
+
+  /* ---------- 3 compact prices (built from the existing tiles, so numbers cannot drift) ---------- */
+  function esc(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;')}
+  doc.querySelectorAll('.card .prices').forEach(function(pr){
+    var by={}, vias=[], alts=[];
+    pr.querySelectorAll('.price').forEach(function(t){
+      var n=parseInt(t.querySelector('span').textContent,10);
+      by[n]=t.querySelector('b').textContent;
+      var v=t.querySelector('.via').textContent.replace(' · ',' '); if(vias.indexOf(v)<0)vias.push(v);
+      var a=t.querySelector('.alt');
+      if(a){ var m=a.textContent.match(/^Or (£[\d,]+) via (.+?) · (\d+h\d+)$/);
+        alts.push({n:n,p:m[1],via:m[2],t:m[3],warn:!!a.querySelector('.warnt')}); }
+    });
+    var row=[5,6,7].map(function(n){ return '<span class="pi">'+n+' nts <b>'+(by[n]?esc(by[n]):'–')+'</b></span>'; }).join('');
+    var multi=Object.keys(by).length>1, groups=[], gi={};
+    alts.forEach(function(a){ var k=a.via+'|'+a.t; if(!(k in gi)){gi[k]=groups.length;groups.push({via:a.via,t:a.t,warn:a.warn,items:[]});} groups[gi[k]].items.push(a); });
+    var line=esc(vias.join(', '))+'.';
+    if(groups.length){
+      line+=' Cheaper '+groups.map(function(g){
+        return 'via '+esc(g.via)+' ('+(g.warn?'<span class="warnt">'+g.t+'</span>':g.t)+'): '+
+          g.items.map(function(a){return (multi?a.n+' nts ':'')+esc(a.p)}).join(' / ');
+      }).join('; ');
+    }
+    var cp=doc.createElement('div'); cp.className='cp';
+    cp.innerHTML='<div class="cprow">'+row+'</div><div class="cpline">'+line+'</div>';
+    pr.after(cp);
+  });
+
+  /* ---------- 4 navigation ---------- */
+  function goto(id){
+    var el=$(id); if(!el)return;
+    var panel=el.closest('[role=tabpanel]')||(el.getAttribute('role')==='tabpanel'?el:null);
+    if(panel&&panel.hidden)show(panel.id);
+    el.scrollIntoView({block:'start'});
+    history.replaceState(null,'','#'+id);
+  }
+  doc.querySelectorAll('table.glance tr[data-card]').forEach(function(tr){
+    var a=tr.querySelector('a'); if(!a)return;
+    a.classList.add('ext');
+    var i=a.cloneNode(true); i.classList.remove('ext'); i.classList.add('int'); i.removeAttribute('target'); i.removeAttribute('rel');
+    i.setAttribute('href','#'+tr.dataset.card); a.after(i);
+    tr.addEventListener('click',function(e){ if(!body.classList.contains('t-nav'))return; if(e.target.closest('a'))return; goto(tr.dataset.card); });
+  });
+  var secl=[].slice.call(doc.querySelectorAll('a.secl'));
+  function syncSecl(){ var on=body.classList.contains('t-nav'); secl.forEach(function(a){ if(on)a.setAttribute('href','#'+a.dataset.group); else a.removeAttribute('href'); }); }
+  doc.addEventListener('click',function(e){
+    var a=e.target.closest('a.int,a.secl,#jump a'); if(!a||!a.getAttribute('href'))return;
+    e.preventDefault(); goto(a.getAttribute('href').slice(1));
+  });
+  function offsets(){
+    var ph=getComputedStyle(proto).position==='sticky'?proto.offsetHeight:0;
+    var jh=body.classList.contains('t-nav')?jump.offsetHeight:0;
+    var r=doc.documentElement.style; r.setProperty('--panel-h',ph+'px'); r.setProperty('--off',(ph+jh+10)+'px');
+  }
+
+  /* ---------- 5 bullet cap ---------- */
+  var capped=[];
+  doc.querySelectorAll('.card ul').forEach(function(ul){
+    var lis=[].slice.call(ul.children).filter(function(n){return n.tagName==='LI'});
+    if(lis.length<=3)return;
+    lis.slice(3).forEach(function(li){li.classList.add('extra')});
+    var b=doc.createElement('button'); b.type='button'; b.className='more'; b.setAttribute('aria-expanded','false');
+    ul.after(b);
+    b.addEventListener('click',function(){ var o=ul.classList.toggle('open'); b.setAttribute('aria-expanded',o); labels(); recompute(); });
+    capped.push({ul:ul,b:b,extras:lis.slice(3)});
+  });
+  function labels(){
+    var bandsOn=body.classList.contains('t-bands');
+    capped.forEach(function(c){
+      var n=c.extras.filter(function(li){return !(bandsOn&&li.classList.contains('resortli'))}).length;
+      var open=c.ul.classList.contains('open');
+      c.b.hidden=(n===0);
+      c.b.textContent=open?'Less ▴':'More ('+n+') ▾';
+    });
+  }
+
+  /* ---------- state, measurement, readout ---------- */
+  function getState(){var s={};SW.forEach(function(k){s[k]=body.classList.contains('t-'+k)});return s}
+  function setState(s){SW.forEach(function(k){body.classList.toggle('t-'+k,!!s[k])}); labels(); syncSecl();}
+  function measure(){ return doc.documentElement.scrollHeight - proto.offsetHeight; }
+  function fmt(n){return n.toLocaleString('en-GB')}
+  function recompute(){
+    var cs=getState(), all={}, none={}; SW.forEach(function(k){all[k]=true;none[k]=false});
+    setState(all); var Lon=measure(), sav={};
+    SW.forEach(function(k){ var s=Object.assign({},all); s[k]=false; setState(s); sav[k]=Lon-measure(); });
+    setState(none); var Loff=measure();
+    setState(cs); var X=measure();
+    SW.forEach(function(k){
+      var v=sav[k], el=doc.querySelector('[data-sv='+k+']');
+      el.textContent=v===0?'0 px':(v<0?'−':'+')+fmt(Math.abs(v))+' px';
+      el.title='Page length with all on, minus length with all on except this switch';
+    });
+    var pct=Loff?Math.round(Math.abs(1-X/Loff)*100):0, word=X>Loff?'longer':'shorter';
+    var tab=doc.getElementById('next-best').hidden?'Shortlist':'Next best';
+    $('readout').innerHTML='Page length: <b>'+fmt(X)+' px</b> (live page: '+fmt(Loff)+' px) — <b>'+pct+'% '+word+'</b> <small>· '+(body.classList.contains('phone')?'Phone 390':'Desktop')+', '+tab+' tab</small>';
+    offsets();
+  }
+  window.recompute=recompute;
+
+  doc.querySelectorAll('.proto input[data-t]').forEach(function(inp){
+    inp.addEventListener('change',function(){ body.classList.toggle('t-'+inp.dataset.t,inp.checked); labels(); syncSecl(); recompute(); });
+  });
+  doc.querySelectorAll('.proto [data-w]').forEach(function(b){
+    b.addEventListener('click',function(){
+      body.classList.toggle('phone',b.dataset.w==='phone');
+      doc.querySelectorAll('.proto [data-w]').forEach(function(x){x.setAttribute('aria-pressed',x===b)});
+      recompute();
+    });
+  });
+  var pt=$('ptoggle'), pb=$('pbody');
+  function collapse(c){ pb.hidden=c; pt.setAttribute('aria-expanded',!c); pt.textContent=c?'Show controls':'Hide controls'; recompute(); }
+  pt.addEventListener('click',function(){ collapse(!pb.hidden); });
+  if(window.matchMedia('(max-width:760px)').matches){ pb.hidden=true; pt.setAttribute('aria-expanded','false'); pt.textContent='Show controls'; }
+
+  var rt; window.addEventListener('resize',function(){clearTimeout(rt);rt=setTimeout(recompute,120)});
+  window.addEventListener('load',function(){ recompute(); setTimeout(recompute,600); });
+  if(window.ResizeObserver) new ResizeObserver(offsets).observe(proto);
+
+  setState({thumbs:1,bands:1,prices:1,nav:1,cap:1});
+  show(location.hash==='#next-best'?'next-best':'shortlist');
+  recompute();
+})();
+
+</script>
+</body>
+</html>
